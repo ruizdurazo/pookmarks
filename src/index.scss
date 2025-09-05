@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.App.light {
+  background-color: white;
+  color: black;
+}
+
+.App.dark {
+  background-color: #333;
+  color: white;
+}
+
+// Adjust other styles as needed for dark mode, e.g.,
+.dark .bookmark {
+  color: lightblue;
+}
