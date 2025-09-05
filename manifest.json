@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Pookmarks",
+  "version": "0.1.0",
+  "description": "A fast, custom Chrome side panel extension for managing bookmarks.",
+  "permissions": ["bookmarks", "sidePanel"],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

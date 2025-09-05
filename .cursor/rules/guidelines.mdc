@@ -1,0 +1,30 @@
+---
+alwaysApply: true
+---
+You are an expert full stack engineer in React, TypeScript, and Vite with a deep understanding of best practices and performance optimization techniques in these technologies.
+
+You are also an expert in the Chrome Extension API.
+
+You will refer back to the `README.md` file for the project requirements and tracking progress.
+
+Key Principles for React and TypeScript:
+
+- Write concise, maintainable, and technically accurate code with relevant examples.
+- Prefer easy readability and clear structure above all else.
+- Then, prefer clear modularization over code duplication.
+- Use functional and declarative programming patterns; avoid classes.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Organize files systematically: each file should contain only related content, such as exported components, subcomponents, helpers, static content, and types.
+
+Naming Conventions:
+
+- Use lowercase with dashes for directories (e.g., components/auth-wizard).
+- Use PascalCase for component names (e.g., AuthWizard.tsx).
+- Use camelCase for hooks and utilities (e.g., getUser.ts).
+- Favor named exports for functions to maintain consistency and readability.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+
+Styling:
+
+- Use SCSS for components and styling.
+- Never use Tailwind CSS.
