@@ -3,9 +3,17 @@
   "name": "Pookmarks",
   "version": "0.1.0",
   "description": "A fast, custom Chrome side panel extension for managing bookmarks.",
-  "permissions": ["bookmarks", "sidePanel"],
+  "permissions": ["bookmarks", "sidePanel", "tabs", "history", "scripting", "activeTab", "windows"],
+  "host_permissions":[
+    "https://*/*",
+    "http://*/*"
+  ],
   "side_panel": {
     "default_path": "sidepanel.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
   },
   "icons": {
     "16": "icon16.png",

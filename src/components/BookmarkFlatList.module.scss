@@ -1,52 +1,32 @@
-// List (ul tag)
-.tree {
+.list {
   list-style: none;
-  width: 100%;
-
-  & > li {
-    padding-left: 0;
-  }
+  padding: 0;
 }
 
-.nodeContent {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5em;
-  width: 100%;
-  
+.item {
+  padding: 0.4em 0.8em;
+  height: 32px;
+
   &:hover {
     background-color: var(--bookmark-bg-color);
   }
 }
 
-.folder,
-.bookmark {
-  height: 32px;
-  width: 100%;
-  padding: 0.4em 1em;
-}
-
 .folder {
-  padding-left: var(--indent);
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 0.5em;
+  font-weight: 500;
 }
 
-// Link (anchor tag)
 .bookmark {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5em;
-  padding-left: var(--indent);
   color: var(--bookmark-color);
   text-decoration: none;
-}
-
-.icon {
-  flex-shrink: 0;
 }
 
 .title {
@@ -56,9 +36,8 @@
   white-space: nowrap;
 }
 
-.count {
-  flex-shrink: 0;
-  color: #808080;
+.highlight {
+  background-color: var(--bookmark-highlight-color);
 }
 
 .contextMenu {

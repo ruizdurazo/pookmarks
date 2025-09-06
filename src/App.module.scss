@@ -1,0 +1,64 @@
+.searchContainer {
+  position: relative;
+  margin: 0 0 1em;
+
+  & .searchInput {
+    width: 100%;
+    padding: 8px 32px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+
+    &:focus {
+      outline: 2px solid #ddd;
+      border-color: #aaa;
+    }
+
+    &::placeholder {
+      color: #808080;
+    }
+  }
+
+  & .clearButton {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #666;
+  }
+}
+
+.searching {
+  padding: 1rem;
+  color: #808080;
+  text-align: center;
+}
+
+.bookmarksContainer {
+  background-color: var(--bookmark-tree-bg-color);
+  border-radius: 10px;
+  padding-bottom: 1rem;
+  overflow: hidden;
+
+  & .bookmarksHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  & .bookmarksHeaderTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  & .bookmarksHeaderCount {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #808080;
+  }
+}
