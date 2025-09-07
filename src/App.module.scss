@@ -5,12 +5,13 @@
   & .searchInput {
     width: 100%;
     padding: 8px 32px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--input-border-color);
     border-radius: 20px;
+    background-color: var(--bookmark-tree-bg-color);
 
     &:focus {
-      outline: 2px solid #ddd;
-      border-color: #aaa;
+      outline: 2px solid var(--input-border-color);
+      border-color: var(--input-focus-border-color);
     }
 
     &::placeholder {
@@ -43,6 +44,10 @@
   padding-bottom: 1rem;
   overflow: hidden;
 
+  &:focus {
+    outline: none;
+  }
+
   & .bookmarksHeader {
     display: flex;
     flex-direction: row;
@@ -60,5 +65,58 @@
     font-size: 1rem;
     font-weight: 400;
     color: #808080;
+  }
+}
+
+.actionsContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 1rem;
+}
+
+.sortTrigger {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  //   padding: 8px 12px;
+  //   background-color: var(--bookmark-bg-color);
+  //   border: 1px solid #ddd;
+  border-radius: 40px;
+  color: #808080;
+  background-color: transparent;
+  font-size: 12px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.sortIcon {
+  margin-left: 8px;
+}
+
+.sortContent {
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 120px;
+  background-color: var(--bg-color);
+}
+
+.sortItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  color: var(--bookmark-color);
+
+  &[data-highlighted] {
+    outline: none;
+    background-color: var(--bookmark-bg-color);
   }
 }

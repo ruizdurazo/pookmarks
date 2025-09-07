@@ -13,6 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
   text-decoration: none;
+  border: none;
+  outline: none;
 }
 
 :root {
@@ -43,39 +45,17 @@ body {
 .App.light {
   background-color: #fafafa;
   color: black;
-  // --bookmark-color: #000;
-  // --bookmark-bg-color: #eee;
-  // --bookmark-tree-bg-color: #fff;
-  // --bookmark-highlight-color: #ffff0080;
 }
 
 .App.dark {
-  background-color: #333;
+  background-color: #222;
   color: white;
-  // --bookmark-color: #fff;
-  // --bookmark-bg-color: #222;
-  // --bookmark-tree-bg-color: #444;
-  // --bookmark-highlight-color: #0000ff80;
 }
 
 button {
   cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid transparent;
+  border-radius: 20px;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  transition: border-color 0.25s;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

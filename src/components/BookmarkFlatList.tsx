@@ -104,6 +104,8 @@ const BookmarkFlatList = ({
           </li>
         ))}
       </ul>
+
+      {/* Edit Bookmark Dialog */}
       {editingNode && (
         <EditBookmarkDialog
           node={editingNode!}

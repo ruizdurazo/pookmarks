@@ -62,9 +62,12 @@ const EditBookmarkDialog = ({
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
         <Dialog.Content className={styles.content}>
+          {/* Title */}
           <Dialog.Title className={styles.title}>
             Edit {isFolder ? "Folder" : "Bookmark"}
           </Dialog.Title>
+
+          {/* Form */}
           <form
             id="edit-form"
             className={styles.form}
@@ -73,7 +76,7 @@ const EditBookmarkDialog = ({
               handleSave();
             }}
           >
-            <label>
+            <label className={styles.label}>
               Title:
               <input
                 type="text"
@@ -83,7 +86,7 @@ const EditBookmarkDialog = ({
               />
             </label>
             {!isFolder && (
-              <label>
+              <label className={styles.label}>
                 URL:
                 <input
                   type="text"
@@ -93,7 +96,7 @@ const EditBookmarkDialog = ({
                 />
               </label>
             )}
-            <label>
+            <label className={styles.label}>
               Parent Folder:
               <Select.Root
                 value={selectedParentId}
@@ -109,6 +112,7 @@ const EditBookmarkDialog = ({
                           ?.title
                       : "Select folder"}
                   </Select.Value>
+                  <Select.Icon className={styles.selectIcon}>▼</Select.Icon>
                 </Select.Trigger>
                 <Select.Portal>
                   <Select.Content className={styles.selectContent}>
@@ -131,7 +135,16 @@ const EditBookmarkDialog = ({
               </Select.Root>
             </label>
           </form>
+
+          {/* Buttons */}
           <div className={styles.actions}>
+            <button
+              type="button"
+              onClick={onClose}
+              className={styles.button + " " + styles.secondary}
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               form="edit-form"
@@ -139,9 +152,6 @@ const EditBookmarkDialog = ({
               className={styles.button}
             >
               Save
-            </button>
-            <button type="button" onClick={onClose} className={styles.button}>
-              Cancel
             </button>
           </div>
         </Dialog.Content>
