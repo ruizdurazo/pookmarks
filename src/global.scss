@@ -38,8 +38,10 @@ body {
 .App {
   padding: 1rem;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .App.light {
@@ -58,4 +60,8 @@ button {
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
+
+  &:active {
+    transform: scale(0.98);
+  }
 }

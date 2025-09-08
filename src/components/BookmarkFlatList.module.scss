@@ -20,6 +20,19 @@
   font-weight: 500;
 }
 
+.icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  & > svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
 .bookmark {
   display: flex;
   flex-direction: row;

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import styles from "./BookmarkTree.module.scss";
+import { useState, useEffect } from "react"
+import styles from "./BookmarkTree.module.scss"
 import {
   DndContext,
   closestCenter,
@@ -7,37 +7,55 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
+} from "@dnd-kit/core"
+import type { DragEndEvent } from "@dnd-kit/core"
 import {
   arrayMove,
   useSortable,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import * as ContextMenu from "@radix-ui/react-context-menu";
-import EditBookmarkDialog from "./EditBookmarkDialog";
-import { handleBookmarkClick } from "../utils/bookmarkNavigation";
-import { clsx } from "clsx";
+} from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
+import * as ContextMenu from "@radix-ui/react-context-menu"
+import EditBookmarkDialog from "./EditBookmarkDialog"
+import { handleBookmarkClick } from "../utils/bookmarkNavigation"
+import { clsx } from "clsx"
+import {
+  getBookmarkCount,
+  openAllInNewTabs,
+  openAllInNewWindow,
+  openAllInNewTabGroup,
+} from "../utils/bookmarkUtils"
+import ArrowDownIcon from "../assets/icons/arrow-down.svg?react"
+import ArrowRightIcon from "../assets/icons/arrow-right.svg?react"
+import YoutubeIcon from "../assets/icons/youtube.svg?react"
+import LinkIcon from "../assets/icons/globe.svg?react"
 
 interface BookmarkTreeProps {
-  nodes: chrome.bookmarks.BookmarkTreeNode[];
-  onRefresh: () => void;
-  level?: number;
-  openFolders: Set<string>;
-  toggleFolder: (id: string) => void;
-  currentId?: string | null;
-  sortType?: 'none' | 'newest' | 'oldest' | 'a-z' | 'z-a';
+  nodes: chrome.bookmarks.BookmarkTreeNode[]
+  onRefresh: () => void
+  level?: number
+  openFolders: Set<string>
+  toggleFolder: (id: string) => void
+  currentId?: string | null
+  sortType?: "none" | "newest" | "oldest" | "a-z" | "z-a"
 }
 
-const BookmarkTree = ({ nodes, onRefresh, level = 0, openFolders, toggleFolder, currentId, sortType }: BookmarkTreeProps) => {
-  const [localNodes, setLocalNodes] = useState(nodes);
+const BookmarkTree = ({
+  nodes,
+  onRefresh,
+  level = 0,
+  openFolders,
+  toggleFolder,
+  currentId,
+  sortType,
+}: BookmarkTreeProps) => {
+  const [localNodes, setLocalNodes] = useState(nodes)
 
   useEffect(() => {
-    setLocalNodes(nodes);
-  }, [nodes]);
+    setLocalNodes(nodes)
+  }, [nodes])
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -47,31 +65,31 @@ const BookmarkTree = ({ nodes, onRefresh, level = 0, openFolders, toggleFolder, 
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+    }),
+  )
 
   const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+    const { active, over } = event
     if (!over || active.id === over.id) {
-      return;
+      return
     }
-    const activeId = active.id.toString();
-    const overId = over.id.toString();
-    const oldIndex = localNodes.findIndex((node) => node.id === activeId);
-    const overIndex = localNodes.findIndex((node) => node.id === overId);
+    const activeId = active.id.toString()
+    const overId = over.id.toString()
+    const oldIndex = localNodes.findIndex((node) => node.id === activeId)
+    const overIndex = localNodes.findIndex((node) => node.id === overId)
 
-    const isBelow = overIndex > oldIndex;
-    const newIndex = isBelow ? overIndex + 1 : overIndex;
+    if (oldIndex === overIndex) return
 
-    if (oldIndex === overIndex) return;
+    const isBelow = overIndex > oldIndex
+    const destinationIndex = isBelow ? overIndex + 1 : overIndex
 
-    setLocalNodes(arrayMove(localNodes, oldIndex, newIndex));
+    setLocalNodes(arrayMove(localNodes, oldIndex, overIndex))
     chrome.bookmarks.move(
       activeId,
-      { parentId: localNodes[0].parentId, index: newIndex },
-      onRefresh
-    );
-  };
+      { parentId: localNodes[0].parentId, index: destinationIndex },
+      onRefresh,
+    )
+  }
 
   return (
     <DndContext
@@ -82,7 +100,7 @@ const BookmarkTree = ({ nodes, onRefresh, level = 0, openFolders, toggleFolder, 
       <SortableContext
         items={localNodes.map((node) => node.id)}
         strategy={verticalListSortingStrategy}
-        disabled={sortType !== 'none'}
+        disabled={sortType !== "none"}
       >
         <ul className={styles.tree} role={level === 0 ? "tree" : "group"}>
           {localNodes.map((node) => (
@@ -101,8 +119,8 @@ const BookmarkTree = ({ nodes, onRefresh, level = 0, openFolders, toggleFolder, 
         </ul>
       </SortableContext>
     </DndContext>
-  );
-};
+  )
+}
 
 const SortableBookmarkNode = ({
   id,
@@ -114,14 +132,14 @@ const SortableBookmarkNode = ({
   currentId,
   sortType,
 }: {
-  id: string;
-  node: chrome.bookmarks.BookmarkTreeNode;
-  onRefresh: () => void;
-  level: number;
-  openFolders: Set<string>;
-  toggleFolder: (id: string) => void;
-  currentId?: string | null;
-  sortType?: 'none' | 'newest' | 'oldest' | 'a-z' | 'z-a';
+  id: string
+  node: chrome.bookmarks.BookmarkTreeNode
+  onRefresh: () => void
+  level: number
+  openFolders: Set<string>
+  toggleFolder: (id: string) => void
+  currentId?: string | null
+  sortType?: "none" | "newest" | "oldest" | "a-z" | "z-a"
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
@@ -129,50 +147,54 @@ const SortableBookmarkNode = ({
       id,
       transition: null,
       // transition: { duration: 150, easing: "ease-out" },
-    });
+    })
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
+  }
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const isFolder = !!node.children;
-  const isOpen = openFolders.has(node.id);
-  const toggleOpen = () => toggleFolder(node.id);
-  const isYouTubeVideo = node.url?.includes("youtube.com");
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const isFolder = !!node.children
+  const isTopLevel = node.id === "1" || node.id === "2"
+  const isOpen = openFolders.has(node.id)
+  const toggleOpen = () => toggleFolder(node.id)
+  const bookmarkCount = isFolder ? getBookmarkCount(node) : 0
+
+  // Page detection for page-specific icons
+  const isYouTubeVideo = node.url?.includes("youtube.com") ?? false
+  // const isAmazonPage =
+  //   (node.url?.includes("amazon.com") ||
+  //     node.url?.includes("amazon.ca") ||
+  //     node.url?.includes("amazon.co.uk") ||
+  //     node.url?.includes("amazon.de")) ??
+  //   false;
+  // const isGitHubPage = node.url?.includes("github.com") ?? false;
+  // const isDigitecGalaxusPage =
+  //   (node.url?.includes("digitec.ch") ||
+  //     node.url?.includes("galaxus.ch")) ??
+  //   false;
+  // const isInstagramPage = (node.url?.includes("instagram.com") || node.url?.includes(".instagram.com") ?? false;
+  // const isXTwitterPage = (node.url?.includes("/twitter.com") || node.url?.includes(".twitter.com") || node.url?.includes("/x.com") || node.url?.includes(".x.com")) ?? false;
 
   const handleRemove = () => {
     const removeFunction = isFolder
       ? chrome.bookmarks.removeTree
-      : chrome.bookmarks.remove;
-    removeFunction(node.id, () => onRefresh());
-  };
+      : chrome.bookmarks.remove
+    removeFunction(node.id, () => onRefresh())
+  }
 
   const handleEdit = () => {
-    setIsDialogOpen(true);
-  };
+    setIsDialogOpen(true)
+  }
 
   const openInNewTab = () => {
-    chrome.tabs.create({ url: node.url });
-  };
+    chrome.tabs.create({ url: node.url })
+  }
 
   const openInNewWindow = () => {
-    chrome.windows.create({ url: node.url });
-  };
-
-  const onSave = (
-    id: string,
-    changes: { title: string; url?: string },
-    newParentId?: string
-  ) => {
-    const performUpdate = () => chrome.bookmarks.update(id, changes, onRefresh);
-    if (newParentId && newParentId !== node.parentId) {
-      chrome.bookmarks.move(id, { parentId: newParentId }, performUpdate);
-    } else {
-      performUpdate();
-    }
-  };
+    chrome.windows.create({ url: node.url })
+  }
 
   return (
     <li
@@ -186,18 +208,27 @@ const SortableBookmarkNode = ({
     >
       <ContextMenu.Root>
         <ContextMenu.Trigger asChild>
-          <div className={styles.nodeContent} {...listeners} id={`bookmark-${node.id}`}>
+          <div
+            className={styles.nodeContent}
+            {...listeners}
+            id={`bookmark-${node.id}`}
+          >
             <>
               {isFolder ? (
                 <div
                   title={node.title}
-                  className={clsx(styles.folder, currentId === node.id && styles.highlight)}
+                  className={clsx(
+                    styles.folder,
+                    currentId === node.id && styles.highlight,
+                  )}
                   onClick={toggleOpen}
                   style={
                     { "--indent": `${level + 1}em` } as React.CSSProperties
                   }
                 >
-                  <div className={styles.icon}>{isOpen ? "▼" : "▶"}</div>
+                  <div className={styles.icon}>
+                    {isOpen ? <ArrowDownIcon /> : <ArrowRightIcon />}
+                  </div>
                   <div className={styles.title}>{node.title}</div>
                   <div className={styles.count}>{node.children?.length}</div>
                 </div>
@@ -208,13 +239,16 @@ const SortableBookmarkNode = ({
                     { "--indent": `${level + 1}em` } as React.CSSProperties
                   }
                   onClick={(event) => {
-                    handleBookmarkClick(event, node.url);
-                    (event.currentTarget as HTMLElement).blur(); // Release focus from extension
+                    handleBookmarkClick(event, node.url)
+                    ;(event.currentTarget as HTMLElement).blur() // Release focus from extension
                   }}
-                  className={clsx(styles.bookmark, currentId === node.id && styles.highlight)}
+                  className={clsx(
+                    styles.bookmark,
+                    currentId === node.id && styles.highlight,
+                  )}
                 >
                   <div className={styles.icon}>
-                    {isYouTubeVideo ? "🎥" : "🔗"}
+                    {isYouTubeVideo ? <YoutubeIcon /> : <LinkIcon />}
                   </div>
                   <div className={styles.title}>{node.title}</div>
                 </div>
@@ -224,38 +258,72 @@ const SortableBookmarkNode = ({
         </ContextMenu.Trigger>
 
         {/* Context Menu */}
-        <ContextMenu.Portal>
-          <ContextMenu.Content className={styles.contextMenu}>
-            <ContextMenu.Item
-              className={styles.contextMenuItem}
-              onSelect={openInNewTab}
-            >
-              Open in New Tab
-            </ContextMenu.Item>
-            <ContextMenu.Item
-              className={styles.contextMenuItem}
-              onSelect={openInNewWindow}
-            >
-              Open in New Window
-            </ContextMenu.Item>
-            <ContextMenu.Separator className={styles.contextMenuSeparator} />
-            <ContextMenu.Item
-              className={styles.contextMenuItem}
-              onSelect={handleEdit}
-            >
-              Edit
-            </ContextMenu.Item>
-            <ContextMenu.Separator className={styles.contextMenuSeparator} />
-            <ContextMenu.Item
-              className={styles.contextMenuItem}
-              onSelect={handleRemove}
-            >
-              Delete
-            </ContextMenu.Item>
-          </ContextMenu.Content>
-        </ContextMenu.Portal>
+        {!isTopLevel && (
+          <ContextMenu.Portal>
+            <ContextMenu.Content className={styles.contextMenu}>
+              {isFolder && (
+                <>
+                  <ContextMenu.Item
+                    className={styles.contextMenuItem}
+                    onSelect={() => openAllInNewTabs(node)}
+                  >
+                    Open All ({bookmarkCount})
+                  </ContextMenu.Item>
+                  <ContextMenu.Item
+                    className={styles.contextMenuItem}
+                    onSelect={() => openAllInNewWindow(node)}
+                  >
+                    Open All ({bookmarkCount}) in New Window
+                  </ContextMenu.Item>
+                  <ContextMenu.Item
+                    className={styles.contextMenuItem}
+                    onSelect={() => openAllInNewTabGroup(node)}
+                  >
+                    Open All ({bookmarkCount}) in New Tab Group
+                  </ContextMenu.Item>
+                  <ContextMenu.Separator
+                    className={styles.contextMenuSeparator}
+                  />
+                </>
+              )}
+              {!isFolder && (
+                <>
+                  <ContextMenu.Item
+                    className={styles.contextMenuItem}
+                    onSelect={openInNewTab}
+                  >
+                    Open in New Tab
+                  </ContextMenu.Item>
+                  <ContextMenu.Item
+                    className={styles.contextMenuItem}
+                    onSelect={openInNewWindow}
+                  >
+                    Open in New Window
+                  </ContextMenu.Item>
+                  <ContextMenu.Separator
+                    className={styles.contextMenuSeparator}
+                  />
+                </>
+              )}
+
+              <ContextMenu.Item
+                className={styles.contextMenuItem}
+                onSelect={handleEdit}
+              >
+                {isFolder ? "Rename" : "Edit"}
+              </ContextMenu.Item>
+              <ContextMenu.Separator className={styles.contextMenuSeparator} />
+              <ContextMenu.Item
+                className={styles.contextMenuItem}
+                onSelect={handleRemove}
+              >
+                Delete
+              </ContextMenu.Item>
+            </ContextMenu.Content>
+          </ContextMenu.Portal>
+        )}
       </ContextMenu.Root>
-      
+
       {isFolder && isOpen && node.children && (
         <BookmarkTree
           nodes={node.children}
@@ -270,12 +338,12 @@ const SortableBookmarkNode = ({
       {isDialogOpen && (
         <EditBookmarkDialog
           node={node}
-          onSave={onSave}
+          onRefresh={onRefresh}
           onClose={() => setIsDialogOpen(false)}
         />
       )}
     </li>
-  );
-};
+  )
+}
 
-export default BookmarkTree;
+export default BookmarkTree

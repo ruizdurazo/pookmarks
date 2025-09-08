@@ -87,17 +87,32 @@
   height: 36px;
   overflow: hidden;
 
+  &[data-placeholder] {
+    & > span {
+      text-align: left;
+      color: #808080;
+    }
+  }
+
   & > span {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-align: left;
   }
 
   & > .selectIcon {
     flex: none;
-    width: 16px;
-    height: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    & > svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 }
 

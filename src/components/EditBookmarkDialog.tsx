@@ -1,61 +1,96 @@
-import { useState, useEffect } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
-import * as Select from "@radix-ui/react-select";
-import styles from "./EditBookmarkDialog.module.scss";
+import { useState, useEffect } from "react"
+import * as Dialog from "@radix-ui/react-dialog"
+import * as Select from "@radix-ui/react-select"
+import styles from "./EditBookmarkDialog.module.scss"
+import ChevronDownIcon from "../assets/icons/chevron-down.svg?react"
 
 interface EditBookmarkDialogProps {
-  node: chrome.bookmarks.BookmarkTreeNode;
-  onSave: (
-    id: string,
-    changes: { title: string; url?: string },
-    newParentId?: string
-  ) => void;
-  onClose: () => void;
+  node?: chrome.bookmarks.BookmarkTreeNode
+  onRefresh: () => void
+  onClose: () => void
+  initialTitle?: string
+  initialUrl?: string
+  initialParentId?: string
+  isCreateFolder?: boolean
 }
 
 const EditBookmarkDialog = ({
   node,
-  onSave,
+  onRefresh,
   onClose,
+  initialTitle,
+  initialUrl,
+  initialParentId,
+  isCreateFolder,
 }: EditBookmarkDialogProps) => {
-  const [title, setTitle] = useState(node.title);
-  const [url, setUrl] = useState(node.url || "");
-  const [selectedParentId, setSelectedParentId] = useState(node.parentId || "");
+  const isCreate = !node
+  const isFolder = isCreate ? (isCreateFolder ?? false) : !!node?.children
+  const [title, setTitle] = useState(node?.title || initialTitle || "")
+  const [url, setUrl] = useState(node?.url || initialUrl || "")
+  const [selectedParentId, setSelectedParentId] = useState(
+    node?.parentId || initialParentId || "",
+  )
   const [folders, setFolders] = useState<
     { id: string; title: string; depth: number }[]
-  >([]);
-  const isFolder = !!node.children;
-  const isValid = title.trim() !== "" && (isFolder || url.trim() !== "");
+  >([])
+  const isValid =
+    title.trim() !== "" &&
+    (isFolder || url.trim() !== "") &&
+    (isCreate ? selectedParentId !== "" : true)
 
   useEffect(() => {
     chrome.bookmarks.getTree((tree) => {
-      const folderList: { id: string; title: string; depth: number }[] = [];
+      const folderList: { id: string; title: string; depth: number }[] = []
       const traverse = (
         nodes: chrome.bookmarks.BookmarkTreeNode[],
-        depth: number
+        depth: number,
       ) => {
         for (const n of nodes) {
           if (n.children) {
-            folderList.push({ id: n.id, title: n.title, depth });
-            traverse(n.children, depth + 1);
+            folderList.push({ id: n.id, title: n.title, depth })
+            traverse(n.children, depth + 1)
           }
         }
-      };
-      traverse(tree[0].children || [], 0);
-      setFolders(folderList);
-    });
-  }, []);
+      }
+      traverse(tree[0].children || [], 0)
+      setFolders(folderList)
+    })
+  }, [])
 
   const handleSave = () => {
-    if (!isValid) return;
-    const changes = { title, url: isFolder ? undefined : url };
-    if (selectedParentId !== node.parentId) {
-      onSave(node.id, changes, selectedParentId);
+    if (!isValid) return
+
+    if (isCreate) {
+      const createOptions: { parentId: string; title: string; url?: string } = {
+        parentId: selectedParentId,
+        title,
+      }
+      if (!isFolder) {
+        createOptions.url = url
+      }
+      chrome.bookmarks.create(createOptions, () => {
+        onRefresh()
+        onClose()
+      })
     } else {
-      onSave(node.id, changes);
+      const changes: { title: string; url?: string } = { title }
+      if (!isFolder) {
+        changes.url = url
+      }
+      const id = node!.id
+      const performUpdate = () => {
+        chrome.bookmarks.update(id, changes, () => {
+          onRefresh()
+        })
+      }
+      if (selectedParentId !== node!.parentId) {
+        chrome.bookmarks.move(id, { parentId: selectedParentId }, performUpdate)
+      } else {
+        performUpdate()
+      }
+      onClose()
     }
-    onClose();
-  };
+  }
 
   return (
     <Dialog.Root open onOpenChange={onClose}>
@@ -64,7 +99,7 @@ const EditBookmarkDialog = ({
         <Dialog.Content className={styles.content}>
           {/* Title */}
           <Dialog.Title className={styles.title}>
-            Edit {isFolder ? "Folder" : "Bookmark"}
+            {isCreate ? "New" : "Edit"} {isFolder ? "Folder" : "Bookmark"}
           </Dialog.Title>
 
           {/* Form */}
@@ -72,8 +107,8 @@ const EditBookmarkDialog = ({
             id="edit-form"
             className={styles.form}
             onSubmit={(e) => {
-              e.preventDefault();
-              handleSave();
+              e.preventDefault()
+              handleSave()
             }}
           >
             <label className={styles.label}>
@@ -106,13 +141,13 @@ const EditBookmarkDialog = ({
                   className={styles.selectTrigger}
                   aria-label="Parent folder"
                 >
-                  <Select.Value>
+                  <Select.Value placeholder="Select folder">
                     {selectedParentId
                       ? folders.find((folder) => folder.id === selectedParentId)
                           ?.title
-                      : "Select folder"}
+                      : ""}
                   </Select.Value>
-                  <Select.Icon className={styles.selectIcon}>▼</Select.Icon>
+                  <Select.Icon className={styles.selectIcon}><ChevronDownIcon /></Select.Icon>
                 </Select.Trigger>
                 <Select.Portal>
                   <Select.Content className={styles.selectContent}>
@@ -157,7 +192,7 @@ const EditBookmarkDialog = ({
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  );
-};
+  )
+}
 
-export default EditBookmarkDialog;
+export default EditBookmarkDialog
