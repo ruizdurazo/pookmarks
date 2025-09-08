@@ -80,11 +80,11 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   background-color: var(--dialog-bg-color);
   border: 1px solid var(--input-border-color);
-  height: 36px;
+  height: 38px;
   overflow: hidden;
 
   &[data-placeholder] {

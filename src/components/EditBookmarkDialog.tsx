@@ -112,7 +112,7 @@ const EditBookmarkDialog = ({
             }}
           >
             <label className={styles.label}>
-              Title:
+              Title
               <input
                 type="text"
                 value={title}
@@ -122,7 +122,7 @@ const EditBookmarkDialog = ({
             </label>
             {!isFolder && (
               <label className={styles.label}>
-                URL:
+                URL
                 <input
                   type="text"
                   value={url}
@@ -132,7 +132,7 @@ const EditBookmarkDialog = ({
               </label>
             )}
             <label className={styles.label}>
-              Parent Folder:
+              Parent Folder
               <Select.Root
                 value={selectedParentId}
                 onValueChange={setSelectedParentId}
