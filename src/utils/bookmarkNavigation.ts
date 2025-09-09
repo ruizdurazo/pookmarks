@@ -13,10 +13,10 @@ export const handleBookmarkClick = (
         interface TabChangeInfo {
           status?: string
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const onUpdated = (
           updatedTabId: number,
           changeInfo: TabChangeInfo,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           _tab: chrome.tabs.Tab,
         ) => {
           if (updatedTabId === tabId && changeInfo.status === "complete") {

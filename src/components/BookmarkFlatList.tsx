@@ -10,8 +10,7 @@ import {
   openAllInNewTabGroup,
 } from "../utils/bookmarkUtils"
 import FolderIcon from "../assets/icons/folder.svg?react"
-import YoutubeIcon from "../assets/icons/youtube.svg?react"
-import LinkIcon from "../assets/icons/globe.svg?react"
+import { getBookmarkIcon } from "../utils/iconUtils"
 import { useTranslation } from "react-i18next"
 
 interface BookmarkFlatListProps {
@@ -82,12 +81,7 @@ const BookmarkFlatList = ({
                       className={styles.bookmark}
                     >
                       <div className={`${styles.icon} ${styles.bookmarkIcon}`}>
-                        {/* TODO: Add icons for other websites */}
-                        {node.url?.includes("youtube.com") ? (
-                          <YoutubeIcon />
-                        ) : (
-                          <LinkIcon />
-                        )}
+                        {getBookmarkIcon(node.url)}
                       </div>
                       <div className={styles.title}>
                         {highlightText(node.title, searchQuery)}

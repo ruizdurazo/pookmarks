@@ -27,10 +27,9 @@ import {
   openAllInNewWindow,
   openAllInNewTabGroup,
 } from "../utils/bookmarkUtils"
+import { getBookmarkIcon } from "../utils/iconUtils"
 import ArrowDownIcon from "../assets/icons/arrow-down.svg?react"
 import ArrowRightIcon from "../assets/icons/arrow-right.svg?react"
-import YoutubeIcon from "../assets/icons/youtube.svg?react"
-import LinkIcon from "../assets/icons/globe.svg?react"
 import { useTranslation } from "react-i18next"
 
 interface BookmarkTreeProps {
@@ -163,22 +162,6 @@ const SortableBookmarkNode = ({
   const toggleOpen = () => toggleFolder(node.id)
   const bookmarkCount = isFolder ? getBookmarkCount(node) : 0
 
-  // Page detection for page-specific icons
-  const isYouTubeVideo = node.url?.includes("youtube.com") ?? false
-  // const isAmazonPage =
-  //   (node.url?.includes("amazon.com") ||
-  //     node.url?.includes("amazon.ca") ||
-  //     node.url?.includes("amazon.co.uk") ||
-  //     node.url?.includes("amazon.de")) ??
-  //   false;
-  // const isGitHubPage = node.url?.includes("github.com") ?? false;
-  // const isDigitecGalaxusPage =
-  //   (node.url?.includes("digitec.ch") ||
-  //     node.url?.includes("galaxus.ch")) ??
-  //   false;
-  // const isInstagramPage = (node.url?.includes("instagram.com") || node.url?.includes(".instagram.com") ?? false;
-  // const isXTwitterPage = (node.url?.includes("/twitter.com") || node.url?.includes(".twitter.com") || node.url?.includes("/x.com") || node.url?.includes(".x.com")) ?? false;
-
   const handleRemove = () => {
     const removeFunction = isFolder
       ? chrome.bookmarks.removeTree
@@ -250,7 +233,7 @@ const SortableBookmarkNode = ({
                   )}
                 >
                   <div className={`${styles.icon} ${styles.bookmarkIcon}`}>
-                    {isYouTubeVideo ? <YoutubeIcon /> : <LinkIcon />}
+                    {getBookmarkIcon(node.url)}
                   </div>
                   <div className={styles.title}>{node.title}</div>
                 </div>
