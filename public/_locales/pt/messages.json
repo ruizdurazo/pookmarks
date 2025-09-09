@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Pookmarks",
+    "description": "O nome da extensão"
+  },
+  "appDescription": {
+    "message": "Uma extensão rápida e personalizada de painel lateral do Chrome para gerenciar favoritos.",
+    "description": "A descrição da extensão"
+  }
+}

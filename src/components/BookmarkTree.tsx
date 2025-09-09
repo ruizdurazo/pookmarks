@@ -31,6 +31,7 @@ import ArrowDownIcon from "../assets/icons/arrow-down.svg?react"
 import ArrowRightIcon from "../assets/icons/arrow-right.svg?react"
 import YoutubeIcon from "../assets/icons/youtube.svg?react"
 import LinkIcon from "../assets/icons/globe.svg?react"
+import { useTranslation } from "react-i18next"
 
 interface BookmarkTreeProps {
   nodes: chrome.bookmarks.BookmarkTreeNode[]
@@ -141,6 +142,7 @@ const SortableBookmarkNode = ({
   currentId?: string | null
   sortType?: "none" | "newest" | "oldest" | "a-z" | "z-a"
 }) => {
+  const { t } = useTranslation()
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       //
@@ -247,7 +249,7 @@ const SortableBookmarkNode = ({
                     currentId === node.id && styles.highlight,
                   )}
                 >
-                  <div className={styles.icon}>
+                  <div className={`${styles.icon} ${styles.bookmarkIcon}`}>
                     {isYouTubeVideo ? <YoutubeIcon /> : <LinkIcon />}
                   </div>
                   <div className={styles.title}>{node.title}</div>
@@ -267,19 +269,19 @@ const SortableBookmarkNode = ({
                     className={styles.contextMenuItem}
                     onSelect={() => openAllInNewTabs(node)}
                   >
-                    Open All ({bookmarkCount})
+                    {t("openAll", { count: bookmarkCount })}
                   </ContextMenu.Item>
                   <ContextMenu.Item
                     className={styles.contextMenuItem}
                     onSelect={() => openAllInNewWindow(node)}
                   >
-                    Open All ({bookmarkCount}) in New Window
+                    {t("openAllInNewWindow", { count: bookmarkCount })}
                   </ContextMenu.Item>
                   <ContextMenu.Item
                     className={styles.contextMenuItem}
                     onSelect={() => openAllInNewTabGroup(node)}
                   >
-                    Open All ({bookmarkCount}) in New Tab Group
+                    {t("openAllInNewTabGroup", { count: bookmarkCount })}
                   </ContextMenu.Item>
                   <ContextMenu.Separator
                     className={styles.contextMenuSeparator}
@@ -292,13 +294,13 @@ const SortableBookmarkNode = ({
                     className={styles.contextMenuItem}
                     onSelect={openInNewTab}
                   >
-                    Open in New Tab
+                    {t("openInNewTab")}
                   </ContextMenu.Item>
                   <ContextMenu.Item
                     className={styles.contextMenuItem}
                     onSelect={openInNewWindow}
                   >
-                    Open in New Window
+                    {t("openInNewWindow")}
                   </ContextMenu.Item>
                   <ContextMenu.Separator
                     className={styles.contextMenuSeparator}
@@ -310,14 +312,14 @@ const SortableBookmarkNode = ({
                 className={styles.contextMenuItem}
                 onSelect={handleEdit}
               >
-                {isFolder ? "Rename" : "Edit"}
+                {isFolder ? t("rename") : t("edit")}
               </ContextMenu.Item>
               <ContextMenu.Separator className={styles.contextMenuSeparator} />
               <ContextMenu.Item
                 className={styles.contextMenuItem}
                 onSelect={handleRemove}
               >
-                Delete
+                {t("delete")}
               </ContextMenu.Item>
             </ContextMenu.Content>
           </ContextMenu.Portal>

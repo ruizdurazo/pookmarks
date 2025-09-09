@@ -57,6 +57,12 @@
     width: 16px;
     height: 16px;
   }
+
+  &.bookmarkIcon {
+    & > svg {
+      color: #808080;
+    }
+  }
 }
 
 .title {

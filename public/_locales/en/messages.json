@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Pookmarks",
+    "description": "The name of the extension"
+  },
+  "appDescription": {
+    "message": "A fast, custom Chrome side panel extension for managing bookmarks.",
+    "description": "The description of the extension"
+  }
+}

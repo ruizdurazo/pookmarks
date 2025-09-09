@@ -3,6 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog"
 import * as Select from "@radix-ui/react-select"
 import styles from "./EditBookmarkDialog.module.scss"
 import ChevronDownIcon from "../assets/icons/chevron-down.svg?react"
+import { useTranslation } from 'react-i18next';
 
 interface EditBookmarkDialogProps {
   node?: chrome.bookmarks.BookmarkTreeNode
@@ -23,6 +24,7 @@ const EditBookmarkDialog = ({
   initialParentId,
   isCreateFolder,
 }: EditBookmarkDialogProps) => {
+  const { t } = useTranslation();
   const isCreate = !node
   const isFolder = isCreate ? (isCreateFolder ?? false) : !!node?.children
   const [title, setTitle] = useState(node?.title || initialTitle || "")
@@ -99,7 +101,7 @@ const EditBookmarkDialog = ({
         <Dialog.Content className={styles.content}>
           {/* Title */}
           <Dialog.Title className={styles.title}>
-            {isCreate ? "New" : "Edit"} {isFolder ? "Folder" : "Bookmark"}
+            {isCreate ? t(isFolder ? 'newFolder' : 'newBookmark') : t(isFolder ? 'editFolder' : 'editBookmark')}
           </Dialog.Title>
 
           {/* Form */}
@@ -112,7 +114,7 @@ const EditBookmarkDialog = ({
             }}
           >
             <label className={styles.label}>
-              Title
+              {t('titleLabel')}
               <input
                 type="text"
                 value={title}
@@ -122,7 +124,7 @@ const EditBookmarkDialog = ({
             </label>
             {!isFolder && (
               <label className={styles.label}>
-                URL
+                {t('urlLabel')}
                 <input
                   type="text"
                   value={url}
@@ -132,7 +134,7 @@ const EditBookmarkDialog = ({
               </label>
             )}
             <label className={styles.label}>
-              Parent Folder
+              {t('parentFolderLabel')}
               <Select.Root
                 value={selectedParentId}
                 onValueChange={setSelectedParentId}
@@ -178,7 +180,7 @@ const EditBookmarkDialog = ({
               onClick={onClose}
               className={styles.button + " " + styles.secondary}
             >
-              Cancel
+              {t('cancel')}
             </button>
             <button
               type="submit"
@@ -186,7 +188,7 @@ const EditBookmarkDialog = ({
               disabled={!isValid}
               className={styles.button}
             >
-              Save
+              {t('save')}
             </button>
           </div>
         </Dialog.Content>

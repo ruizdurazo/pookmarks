@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Pookmarks",
+    "description": "Il nome dell'estensione"
+  },
+  "appDescription": {
+    "message": "Un'estensione rapida e personalizzata del pannello laterale di Chrome per gestire i segnalibri.",
+    "description": "La descrizione dell'estensione"
+  }
+}

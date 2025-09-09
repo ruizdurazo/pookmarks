@@ -12,6 +12,7 @@ import {
 import FolderIcon from "../assets/icons/folder.svg?react"
 import YoutubeIcon from "../assets/icons/youtube.svg?react"
 import LinkIcon from "../assets/icons/globe.svg?react"
+import { useTranslation } from "react-i18next"
 
 interface BookmarkFlatListProps {
   nodes: chrome.bookmarks.BookmarkTreeNode[]
@@ -26,6 +27,7 @@ const BookmarkFlatList = ({
   onRefresh,
   onOpenFolderInTree,
 }: BookmarkFlatListProps) => {
+  const { t } = useTranslation()
   const highlightText = (text: string, query: string) => {
     if (!query) return text
     const regex = new RegExp(`(${query})`, "gi")
@@ -64,7 +66,9 @@ const BookmarkFlatList = ({
                         ;(event.currentTarget as HTMLElement).blur()
                       }}
                     >
-                      <div className={styles.icon}><FolderIcon /></div>
+                      <div className={styles.icon}>
+                        <FolderIcon />
+                      </div>
                       <div className={styles.title}>
                         {highlightText(node.title, searchQuery)}
                       </div>
@@ -77,9 +81,13 @@ const BookmarkFlatList = ({
                       }}
                       className={styles.bookmark}
                     >
-                      <div className={styles.icon}>
+                      <div className={`${styles.icon} ${styles.bookmarkIcon}`}>
                         {/* TODO: Add icons for other websites */}
-                        {node.url?.includes("youtube.com") ? <YoutubeIcon /> : <LinkIcon />}
+                        {node.url?.includes("youtube.com") ? (
+                          <YoutubeIcon />
+                        ) : (
+                          <LinkIcon />
+                        )}
                       </div>
                       <div className={styles.title}>
                         {highlightText(node.title, searchQuery)}
@@ -95,19 +103,19 @@ const BookmarkFlatList = ({
                           className={styles.contextMenuItem}
                           onSelect={() => openAllInNewTabs(node)}
                         >
-                          Open All ({bookmarkCount})
+                          {t("openAll", { count: bookmarkCount })}
                         </ContextMenu.Item>
                         <ContextMenu.Item
                           className={styles.contextMenuItem}
                           onSelect={() => openAllInNewWindow(node)}
                         >
-                          Open All ({bookmarkCount}) in New Window
+                          {t("openAllInNewWindow", { count: bookmarkCount })}
                         </ContextMenu.Item>
                         <ContextMenu.Item
                           className={styles.contextMenuItem}
                           onSelect={() => openAllInNewTabGroup(node)}
                         >
-                          Open All ({bookmarkCount}) in New Tab Group
+                          {t("openAllInNewTabGroup", { count: bookmarkCount })}
                         </ContextMenu.Item>
                         <ContextMenu.Separator
                           className={styles.contextMenuSeparator}
@@ -122,7 +130,7 @@ const BookmarkFlatList = ({
                             if (node.url) chrome.tabs.create({ url: node.url })
                           }}
                         >
-                          Open in New Tab
+                          {t("openInNewTab")}
                         </ContextMenu.Item>
                         <ContextMenu.Item
                           className={styles.contextMenuItem}
@@ -131,7 +139,7 @@ const BookmarkFlatList = ({
                               chrome.windows.create({ url: node.url })
                           }}
                         >
-                          Open in New Window
+                          {t("openInNewWindow")}
                         </ContextMenu.Item>
                         <ContextMenu.Separator
                           className={styles.contextMenuSeparator}
@@ -144,7 +152,7 @@ const BookmarkFlatList = ({
                           className={styles.contextMenuItem}
                           onSelect={() => setEditingNode(node)}
                         >
-                          {isFolder ? "Rename" : "Edit"}
+                          {isFolder ? t("rename") : t("edit")}
                         </ContextMenu.Item>
                         <ContextMenu.Separator
                           className={styles.contextMenuSeparator}
@@ -158,7 +166,7 @@ const BookmarkFlatList = ({
                             removeFunction(node.id, () => onRefresh())
                           }}
                         >
-                          Delete
+                          {t("delete")}
                         </ContextMenu.Item>
                       </>
                     )}

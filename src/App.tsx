@@ -9,8 +9,10 @@ import FolderIcon from "./assets/icons/folder-plus.svg?react"
 import SortIcon from "./assets/icons/sort.svg?react"
 import SearchIcon from "./assets/icons/search.svg?react"
 import CheckmarkIcon from "./assets/icons/checkmark.svg?react"
+import { useTranslation } from 'react-i18next';
 
 function App() {
+  const { t } = useTranslation();
   const [bookmarks, setBookmarks] = useState<
     chrome.bookmarks.BookmarkTreeNode[]
   >([])
@@ -45,11 +47,11 @@ function App() {
   })
 
   const sortTypeOptions = [
-    { value: "none", label: "Unsorted" },
-    { value: "newest", label: "Newest" },
-    { value: "oldest", label: "Oldest" },
-    { value: "a-z", label: "A-Z" },
-    { value: "z-a", label: "Z-A" },
+    { value: "none", label: t('sortUnsorted') },
+    { value: "newest", label: t('sortNewest') },
+    { value: "oldest", label: t('sortOldest') },
+    { value: "a-z", label: t('sortAZ') },
+    { value: "z-a", label: t('sortZA') },
   ]
 
   const getSortFunc = useCallback(
@@ -435,7 +437,7 @@ function App() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search"
+          placeholder={t('searchPlaceholder')}
           className={styles.searchInput}
         />
         <SearchIcon />
@@ -466,9 +468,9 @@ function App() {
         {/* Header */}
         <div className={styles.bookmarksHeader}>
           {searchQuery ? (
-            <div className={styles.bookmarksHeaderTitle}>Search Results</div>
+            <div className={styles.bookmarksHeaderTitle}>{t('searchResults')}</div>
           ) : (
-            <div className={styles.bookmarksHeaderTitle}>All Bookmarks</div>
+            <div className={styles.bookmarksHeaderTitle}>{t('allBookmarks')}</div>
           )}
           <div className={styles.bookmarksHeaderCount}>
             {searchQuery
@@ -490,7 +492,7 @@ function App() {
               onClick={handleAddBookmark}
             >
               <BookmarkIcon />
-              <span>Bookmark</span>
+              <span>{t('addBookmark')}</span>
             </button>
             <button
               type="button"
@@ -499,7 +501,7 @@ function App() {
               onClick={handleAddFolder}
             >
               <FolderIcon />
-              <span>Folder</span>
+              <span>{t('addFolder')}</span>
             </button>
           </div>
 
@@ -561,7 +563,7 @@ function App() {
                   onOpenFolderInTree={handleOpenFolderInTree}
                 />
               ) : (
-                <div className={styles.searching}>Searching...</div>
+                <div className={styles.searching}>{t('searching')}</div>
               )
             ) : (
               <BookmarkTree

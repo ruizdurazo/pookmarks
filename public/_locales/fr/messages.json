@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Pookmarks",
+    "description": "Le nom de l'extension"
+  },
+  "appDescription": {
+    "message": "Une extension rapide et personnalisée de panneau latéral Chrome pour gérer les signets.",
+    "description": "La description de l'extension"
+  }
+}

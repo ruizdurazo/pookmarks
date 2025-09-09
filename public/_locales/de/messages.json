@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Pookmarks",
+    "description": "Der Name der Erweiterung"
+  },
+  "appDescription": {
+    "message": "Eine schnelle, benutzerdefinierte Chrome-Seitenpanel-Erweiterung zum Verwalten von Lesezeichen.",
+    "description": "Die Beschreibung der Erweiterung"
+  }
+}
