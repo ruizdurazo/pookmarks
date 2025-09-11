@@ -60,12 +60,28 @@ function App() {
         a: chrome.bookmarks.BookmarkTreeNode,
         b: chrome.bookmarks.BookmarkTreeNode,
       ) => {
+        const getMaxDate = (node: chrome.bookmarks.BookmarkTreeNode): number => {
+          let max = node.dateAdded ?? 0;
+          if (node.children) {
+            for (const child of node.children) {
+              max = Math.max(max, getMaxDate(child));
+            }
+          }
+          return max;
+        };
+        const getMinDate = (node: chrome.bookmarks.BookmarkTreeNode): number => {
+          let min = node.dateAdded ?? 0;
+          if (node.children) {
+            for (const child of node.children) {
+              min = Math.min(min, getMinDate(child));
+            }
+          }
+          return min;
+        };
         if (sortType === "a-z") return a.title.localeCompare(b.title)
         if (sortType === "z-a") return b.title.localeCompare(a.title)
-        if (sortType === "newest")
-          return (b.dateAdded ?? 0) - (a.dateAdded ?? 0)
-        if (sortType === "oldest")
-          return (a.dateAdded ?? 0) - (b.dateAdded ?? 0)
+        if (sortType === "newest") return getMaxDate(b) - getMaxDate(a)
+        if (sortType === "oldest") return getMinDate(a) - getMinDate(b)
         return 0
       },
     [],
