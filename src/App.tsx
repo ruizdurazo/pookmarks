@@ -39,6 +39,26 @@ function App() {
     "none" | "newest" | "oldest" | "a-z" | "z-a"
   >("none")
 
+  useEffect(() => {
+    chrome.storage.local.get(['sortType'], (result) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+        return;
+      }
+      if (result.sortType) {
+        setSortType(result.sortType as typeof sortType);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    chrome.storage.local.set({ sortType }, () => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+      }
+    });
+  }, [sortType]);
+
   const [showNewBookmarkDialog, setShowNewBookmarkDialog] = useState(false)
   const [showNewFolderDialog, setShowNewFolderDialog] = useState(false)
   const [initialBookmarkData, setInitialBookmarkData] = useState({
