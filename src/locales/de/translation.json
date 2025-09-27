@@ -4,7 +4,7 @@
   "allBookmarks": "Alle Lesezeichen",
   "addBookmark": "Lesezeichen",
   "addFolder": "Ordner",
-  "sortUnsorted": "Unsortiert",
+  "sortCustom": "Benutzerdefiniert",
   "sortNewest": "Neueste",
   "sortOldest": "Älteste",
   "sortAZ": "A-Z",
@@ -26,5 +26,9 @@
   "urlLabel": "URL",
   "parentFolderLabel": "Übergeordneter Ordner",
   "cancel": "Abbrechen",
-  "save": "Speichern"
+  "save": "Speichern",
+  "newFolderDescription": "Erstellen Sie einen neuen Ordner, indem Sie einen Titel eingeben und einen übergeordneten Ordner auswählen.",
+  "editFolderDescription": "Bearbeiten Sie den Titel und den übergeordneten Ordner des Ordners.",
+  "newBookmarkDescription": "Erstellen Sie ein neues Lesezeichen, indem Sie einen Titel, eine URL eingeben und einen übergeordneten Ordner auswählen.",
+  "editBookmarkDescription": "Bearbeiten Sie den Titel, die URL und den übergeordneten Ordner des Lesezeichens."
 }

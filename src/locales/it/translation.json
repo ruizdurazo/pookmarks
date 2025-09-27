@@ -4,7 +4,7 @@
   "allBookmarks": "Tutti i segnalibri",
   "addBookmark": "Segnalibro",
   "addFolder": "Cartella",
-  "sortUnsorted": "Non ordinato",
+  "sortCustom": "Personalizzato",
   "sortNewest": "Più recente",
   "sortOldest": "Più vecchio",
   "sortAZ": "A-Z",
@@ -26,5 +26,9 @@
   "urlLabel": "URL",
   "parentFolderLabel": "Cartella principale",
   "cancel": "Annulla",
-  "save": "Salva"
+  "save": "Salva",
+  "newFolderDescription": "Crea una nuova cartella inserendo un titolo e selezionando una cartella genitore.",
+  "editFolderDescription": "Modifica il titolo e la cartella genitore della cartella.",
+  "newBookmarkDescription": "Crea un nuovo segnalibro inserendo un titolo, URL e selezionando una cartella genitore.",
+  "editBookmarkDescription": "Modifica il titolo, URL e cartella genitore del segnalibro."
 }

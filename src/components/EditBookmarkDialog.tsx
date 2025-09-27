@@ -103,7 +103,9 @@ const EditBookmarkDialog = ({
           <Dialog.Title className={styles.title}>
             {isCreate ? t(isFolder ? 'newFolder' : 'newBookmark') : t(isFolder ? 'editFolder' : 'editBookmark')}
           </Dialog.Title>
-
+          <Dialog.Description className={styles.description}>
+            {isCreate ? t(isFolder ? 'newFolderDescription' : 'newBookmarkDescription') : t(isFolder ? 'editFolderDescription' : 'editBookmarkDescription')}
+          </Dialog.Description>
           {/* Form */}
           <form
             id="edit-form"

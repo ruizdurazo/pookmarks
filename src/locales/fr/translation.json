@@ -4,7 +4,7 @@
   "allBookmarks": "Tous les signets",
   "addBookmark": "Signet",
   "addFolder": "Dossier",
-  "sortUnsorted": "Non trié",
+  "sortCustom": "Personnalisé",
   "sortNewest": "Plus récent",
   "sortOldest": "Plus ancien",
   "sortAZ": "A-Z",
@@ -26,5 +26,9 @@
   "urlLabel": "URL",
   "parentFolderLabel": "Dossier parent",
   "cancel": "Annuler",
-  "save": "Enregistrer"
+  "save": "Enregistrer",
+  "newFolderDescription": "Créez un nouveau dossier en entrant un titre et en sélectionnant un dossier parent.",
+  "editFolderDescription": "Modifiez le titre et le dossier parent du dossier.",
+  "newBookmarkDescription": "Créez un nouveau signet en entrant un titre, une URL et en sélectionnant un dossier parent.",
+  "editBookmarkDescription": "Modifiez le titre, l'URL et le dossier parent du signet."
 }

@@ -4,7 +4,7 @@
   "allBookmarks": "All Bookmarks",
   "addBookmark": "Bookmark",
   "addFolder": "Folder",
-  "sortUnsorted": "Unsorted",
+  "sortCustom": "Custom",
   "sortNewest": "Newest",
   "sortOldest": "Oldest",
   "sortAZ": "A-Z",
@@ -26,5 +26,9 @@
   "urlLabel": "URL",
   "parentFolderLabel": "Parent Folder",
   "cancel": "Cancel",
-  "save": "Save"
+  "save": "Save",
+  "newFolderDescription": "Create a new folder by entering a title and selecting a parent folder.",
+  "editFolderDescription": "Edit the folder's title and parent folder.",
+  "newBookmarkDescription": "Create a new bookmark by entering a title, URL, and selecting a parent folder.",
+  "editBookmarkDescription": "Edit the bookmark's title, URL, and parent folder."
 }

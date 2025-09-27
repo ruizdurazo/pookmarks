@@ -4,7 +4,7 @@
   "allBookmarks": "Todos os favoritos",
   "addBookmark": "Favorito",
   "addFolder": "Pasta",
-  "sortUnsorted": "Não ordenado",
+  "sortCustom": "Personalizado",
   "sortNewest": "Mais recente",
   "sortOldest": "Mais antigo",
   "sortAZ": "A-Z",
@@ -26,5 +26,9 @@
   "urlLabel": "URL",
   "parentFolderLabel": "Pasta pai",
   "cancel": "Cancelar",
-  "save": "Salvar"
+  "save": "Salvar",
+  "newFolderDescription": "Crie uma nova pasta inserindo um título e selecionando uma pasta pai.",
+  "editFolderDescription": "Edite o título e a pasta pai da pasta.",
+  "newBookmarkDescription": "Crie um novo marcador inserindo um título, URL e selecionando uma pasta pai.",
+  "editBookmarkDescription": "Edite o título, URL e pasta pai do marcador."
 }
