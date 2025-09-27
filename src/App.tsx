@@ -9,10 +9,10 @@ import FolderIcon from "./assets/icons/folder-plus.svg?react"
 import SortIcon from "./assets/icons/sort.svg?react"
 import SearchIcon from "./assets/icons/search.svg?react"
 import CheckmarkIcon from "./assets/icons/checkmark.svg?react"
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next"
 
 function App() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const [bookmarks, setBookmarks] = useState<
     chrome.bookmarks.BookmarkTreeNode[]
   >([])
@@ -40,24 +40,24 @@ function App() {
   >("none")
 
   useEffect(() => {
-    chrome.storage.local.get(['sortType'], (result) => {
+    chrome.storage.local.get(["sortType"], (result) => {
       if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError);
-        return;
+        console.error(chrome.runtime.lastError)
+        return
       }
       if (result.sortType) {
-        setSortType(result.sortType as typeof sortType);
+        setSortType(result.sortType as typeof sortType)
       }
-    });
-  }, []);
+    })
+  }, [])
 
   useEffect(() => {
     chrome.storage.local.set({ sortType }, () => {
       if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError);
+        console.error(chrome.runtime.lastError)
       }
-    });
-  }, [sortType]);
+    })
+  }, [sortType])
 
   const [showNewBookmarkDialog, setShowNewBookmarkDialog] = useState(false)
   const [showNewFolderDialog, setShowNewFolderDialog] = useState(false)
@@ -67,11 +67,11 @@ function App() {
   })
 
   const sortTypeOptions = [
-    { value: "none", label: t('sortUnsorted') },
-    { value: "newest", label: t('sortNewest') },
-    { value: "oldest", label: t('sortOldest') },
-    { value: "a-z", label: t('sortAZ') },
-    { value: "z-a", label: t('sortZA') },
+    { value: "none", label: t("sortCustom") },
+    { value: "newest", label: t("sortNewest") },
+    { value: "oldest", label: t("sortOldest") },
+    { value: "a-z", label: t("sortAZ") },
+    { value: "z-a", label: t("sortZA") },
   ]
 
   const getSortFunc = useCallback(
@@ -80,24 +80,28 @@ function App() {
         a: chrome.bookmarks.BookmarkTreeNode,
         b: chrome.bookmarks.BookmarkTreeNode,
       ) => {
-        const getMaxDate = (node: chrome.bookmarks.BookmarkTreeNode): number => {
-          let max = node.dateAdded ?? 0;
+        const getMaxDate = (
+          node: chrome.bookmarks.BookmarkTreeNode,
+        ): number => {
+          let max = node.dateAdded ?? 0
           if (node.children) {
             for (const child of node.children) {
-              max = Math.max(max, getMaxDate(child));
+              max = Math.max(max, getMaxDate(child))
             }
           }
-          return max;
-        };
-        const getMinDate = (node: chrome.bookmarks.BookmarkTreeNode): number => {
-          let min = node.dateAdded ?? 0;
+          return max
+        }
+        const getMinDate = (
+          node: chrome.bookmarks.BookmarkTreeNode,
+        ): number => {
+          let min = node.dateAdded ?? 0
           if (node.children) {
             for (const child of node.children) {
-              min = Math.min(min, getMinDate(child));
+              min = Math.min(min, getMinDate(child))
             }
           }
-          return min;
-        };
+          return min
+        }
         if (sortType === "a-z") return a.title.localeCompare(b.title)
         if (sortType === "z-a") return b.title.localeCompare(a.title)
         if (sortType === "newest") return getMaxDate(b) - getMaxDate(a)
@@ -473,7 +477,7 @@ function App() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={t('searchPlaceholder')}
+          placeholder={t("searchPlaceholder")}
           className={styles.searchInput}
         />
         <SearchIcon />
@@ -504,9 +508,13 @@ function App() {
         {/* Header */}
         <div className={styles.bookmarksHeader}>
           {searchQuery ? (
-            <div className={styles.bookmarksHeaderTitle}>{t('searchResults')}</div>
+            <div className={styles.bookmarksHeaderTitle}>
+              {t("searchResults")}
+            </div>
           ) : (
-            <div className={styles.bookmarksHeaderTitle}>{t('allBookmarks')}</div>
+            <div className={styles.bookmarksHeaderTitle}>
+              {t("allBookmarks")}
+            </div>
           )}
           <div className={styles.bookmarksHeaderCount}>
             {searchQuery
@@ -528,7 +536,7 @@ function App() {
               onClick={handleAddBookmark}
             >
               <BookmarkIcon />
-              <span>{t('addBookmark')}</span>
+              <span>{t("addBookmark")}</span>
             </button>
             <button
               type="button"
@@ -537,7 +545,7 @@ function App() {
               onClick={handleAddFolder}
             >
               <FolderIcon />
-              <span>{t('addFolder')}</span>
+              <span>{t("addFolder")}</span>
             </button>
           </div>
 
@@ -576,7 +584,9 @@ function App() {
                       <div>{option.label}</div>
                       <div>
                         {option.value === sortType && (
-                          <Select.ItemIndicator><CheckmarkIcon /></Select.ItemIndicator>
+                          <Select.ItemIndicator>
+                            <CheckmarkIcon />
+                          </Select.ItemIndicator>
                         )}
                       </div>
                     </Select.Item>
@@ -599,7 +609,7 @@ function App() {
                   onOpenFolderInTree={handleOpenFolderInTree}
                 />
               ) : (
-                <div className={styles.searching}>{t('searching')}</div>
+                <div className={styles.searching}>{t("searching")}</div>
               )
             ) : (
               <BookmarkTree
