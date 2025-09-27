@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog"
 import * as Select from "@radix-ui/react-select"
 import styles from "./EditBookmarkDialog.module.scss"
 import ChevronDownIcon from "../assets/icons/chevron-down.svg?react"
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next"
 
 interface EditBookmarkDialogProps {
   node?: chrome.bookmarks.BookmarkTreeNode
@@ -24,7 +24,7 @@ const EditBookmarkDialog = ({
   initialParentId,
   isCreateFolder,
 }: EditBookmarkDialogProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const isCreate = !node
   const isFolder = isCreate ? (isCreateFolder ?? false) : !!node?.children
   const [title, setTitle] = useState(node?.title || initialTitle || "")
@@ -101,10 +101,18 @@ const EditBookmarkDialog = ({
         <Dialog.Content className={styles.content}>
           {/* Title */}
           <Dialog.Title className={styles.title}>
-            {isCreate ? t(isFolder ? 'newFolder' : 'newBookmark') : t(isFolder ? 'editFolder' : 'editBookmark')}
+            {isCreate
+              ? t(isFolder ? "newFolder" : "newBookmark")
+              : t(isFolder ? "editFolder" : "editBookmark")}
           </Dialog.Title>
           <Dialog.Description className={styles.description}>
-            {isCreate ? t(isFolder ? 'newFolderDescription' : 'newBookmarkDescription') : t(isFolder ? 'editFolderDescription' : 'editBookmarkDescription')}
+            {isCreate
+              ? t(isFolder ? "newFolderDescription" : "newBookmarkDescription")
+              : t(
+                  isFolder
+                    ? "editFolderDescription"
+                    : "editBookmarkDescription",
+                )}
           </Dialog.Description>
           {/* Form */}
           <form
@@ -116,7 +124,7 @@ const EditBookmarkDialog = ({
             }}
           >
             <label className={styles.label}>
-              {t('titleLabel')}
+              {t("titleLabel")}
               <input
                 type="text"
                 value={title}
@@ -126,7 +134,7 @@ const EditBookmarkDialog = ({
             </label>
             {!isFolder && (
               <label className={styles.label}>
-                {t('urlLabel')}
+                {t("urlLabel")}
                 <input
                   type="text"
                   value={url}
@@ -136,7 +144,7 @@ const EditBookmarkDialog = ({
               </label>
             )}
             <label className={styles.label}>
-              {t('parentFolderLabel')}
+              {t("parentFolderLabel")}
               <Select.Root
                 value={selectedParentId}
                 onValueChange={setSelectedParentId}
@@ -151,7 +159,9 @@ const EditBookmarkDialog = ({
                           ?.title
                       : ""}
                   </Select.Value>
-                  <Select.Icon className={styles.selectIcon}><ChevronDownIcon /></Select.Icon>
+                  <Select.Icon className={styles.selectIcon}>
+                    <ChevronDownIcon />
+                  </Select.Icon>
                 </Select.Trigger>
                 <Select.Portal>
                   <Select.Content className={styles.selectContent}>
@@ -182,7 +192,7 @@ const EditBookmarkDialog = ({
               onClick={onClose}
               className={styles.button + " " + styles.secondary}
             >
-              {t('cancel')}
+              {t("cancel")}
             </button>
             <button
               type="submit"
@@ -190,7 +200,7 @@ const EditBookmarkDialog = ({
               disabled={!isValid}
               className={styles.button}
             >
-              {t('save')}
+              {t("save")}
             </button>
           </div>
         </Dialog.Content>
