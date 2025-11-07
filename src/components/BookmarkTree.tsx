@@ -181,6 +181,12 @@ const SortableBookmarkNode = ({
     chrome.windows.create({ url: node.url })
   }
 
+  const handleCopyUrl = () => {
+    if (node.url) {
+      navigator.clipboard.writeText(node.url)
+    }
+  }
+
   return (
     <li
       ref={setNodeRef}
@@ -290,7 +296,19 @@ const SortableBookmarkNode = ({
                   />
                 </>
               )}
-
+              {!isFolder && (
+                <>
+                  <ContextMenu.Item
+                    className={styles.contextMenuItem}
+                    onSelect={handleCopyUrl}
+                  >
+                    {t("copyUrl")}
+                  </ContextMenu.Item>
+                  <ContextMenu.Separator
+                    className={styles.contextMenuSeparator}
+                  />
+                </>
+              )}
               <ContextMenu.Item
                 className={styles.contextMenuItem}
                 onSelect={handleEdit}
