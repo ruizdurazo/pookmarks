@@ -46,13 +46,13 @@ It's a wrapper around the Chrome Extension API, so it edits your browser's bookm
 - [x] Fix drag and drop glitch (when dropping a bookmark into a position lower down on the list, it first gets inserted one item lower than intended, then quickly resolves to move to the correct position)
 - [x] Add icons
 - [x] Add gradients at the top and bottom of the list to indicate there are more items to scroll through and not cut them off harshly
-- [ ] Optional: Fix drag and drop glitch when dragging a open folder, it resizes to the height of a single bookmark or collapsed folder item, but the reference element that shifts the list items is still the same size as the expanded folder
-- [ ] Optional: Make drag and drop between folders possible
+- [x] Optional: Fix drag and drop glitch when dragging a open folder, it resizes to the height of a single bookmark or collapsed folder item, but the reference element that shifts the list items is still the same size as the expanded folder
+- [x] Optional: Make drag and drop between folders possible
 - [x] Optional: Check to see if the browser is in light mode or dark mode and use the appropriate theme
 - [x] Optional: Add multilingual support (English, Spanish, French, German, Italian, Portuguese)
-- [ ] Optional: Add more languages (Dutch, Swedish, Norwegian, Danish, Finnish, Greek)
-- [ ] Optional: Add even more languages (Polish, Czech, Slovak, Hungarian, Croatian, Slovenian, Estonian, Latvian, Lithuanian)
-- [ ] Optional: Add even even more languages (Chinese, Japanese, Korean, Russian, Turkish)
+- [x] Optional: Add more languages (Dutch, Swedish, Norwegian, Danish, Finnish, Greek)
+- [x] Optional: Add even more languages (Polish, Czech, Slovak, Hungarian, Croatian, Slovenian, Estonian, Latvian, Lithuanian)
+- [x] Optional: Add even even more languages (Chinese, Japanese, Korean, Russian, Turkish)
 
 ## Installing locally
 
