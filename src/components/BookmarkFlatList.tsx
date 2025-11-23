@@ -135,6 +135,39 @@ const BookmarkFlatList = ({
                         >
                           {t("openInNewWindow")}
                         </ContextMenu.Item>
+                        <ContextMenu.Item
+                          className={styles.contextMenuItem}
+                          onSelect={() => {
+                            if (node.url)
+                              chrome.tabs
+                                .create({ url: node.url })
+                                .then((tab) => {
+                                  if (tab.id) {
+                                    chrome.tabs
+                                      .group({ tabIds: [tab.id] })
+                                      .then((groupId) => {
+                                        chrome.tabGroups.update(groupId, {
+                                          title: node.title,
+                                        })
+                                      })
+                                  }
+                                })
+                          }}
+                        >
+                          {t("openInNewTabGroup")}
+                        </ContextMenu.Item>
+                        <ContextMenu.Item
+                          className={styles.contextMenuItem}
+                          onSelect={() => {
+                            if (node.url)
+                              chrome.windows.create({
+                                url: node.url,
+                                incognito: true,
+                              })
+                          }}
+                        >
+                          {t("openInNewIncognitoWindow")}
+                        </ContextMenu.Item>
                         <ContextMenu.Separator
                           className={styles.contextMenuSeparator}
                         />

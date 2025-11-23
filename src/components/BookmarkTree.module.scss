@@ -1,11 +1,26 @@
-// List (ul tag)
+// List
 .tree {
-  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
   width: 100%;
+}
 
-  & > li {
-    padding-left: 0;
+.node {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  border-radius: 4px;
+  background: none;
+  position: relative; // For positioning drop indicator
+
+  &:focus {
+    outline: none;
   }
+}
+
+.dragging {
+  opacity: 0.5;
 }
 
 .nodeContent {
@@ -14,10 +29,16 @@
   align-items: center;
   gap: 0.5em;
   width: 100%;
+  border-radius: 4px; // Round corners for better look
 
-  &:hover {
+  &:focus {
     background-color: var(--bookmark-bg-color);
+    outline: none;
   }
+}
+
+.nodeContentHover:hover {
+  background-color: var(--bookmark-bg-color);
 }
 
 .folder,
@@ -28,7 +49,7 @@
 }
 
 .folder {
-  padding-left: var(--indent);
+  padding: 0 0.5rem 0 calc(var(--indent) + 0.5rem);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -41,17 +62,17 @@
   flex-direction: row;
   align-items: center;
   gap: 0.5em;
-  padding-left: var(--indent);
+  padding: 0 0.5rem 0 calc(var(--indent) + 0.5rem);
   color: var(--bookmark-color);
   text-decoration: none;
 }
 
 .icon {
+  flex: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 
   & > svg {
     width: 16px;
@@ -70,10 +91,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: left;
 }
 
 .count {
-  flex-shrink: 0;
+  flex: 0;
   color: #808080;
 }
 
@@ -102,11 +124,52 @@
   margin: 4px 0;
 }
 
-.nodeContent:focus {
-  background-color: var(--bookmark-bg-color);
-  outline: none;
-}
-
 .highlight {
   background-color: var(--bookmark-bg-color);
+  border-radius: 4px;
+}
+
+.dragOverlay {
+  background-color: var(--bookmark-tree-bg-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  opacity: 0.9;
+  padding: 0 4px;
+
+  // Ensure the node inside the overlay respects indentation if needed,
+  // but usually overlay is just the item.
+  // We passed depth=0 to overlay so indentation is 0.
+}
+
+.dropIndicator {
+  position: absolute;
+  height: 2px;
+  background-color: var(--app-color);
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  // Add a circle at the start like Chrome does?
+  &::before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--app-color);
+    border-radius: 50%;
+    left: 0;
+    top: 1px;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--bookmark-tree-bg-color); // Mask border
+  }
+}
+
+.top {
+  top: 0; // Or -1px to overlap border?
+  transform: translateY(-50%);
+}
+
+.bottom {
+  bottom: 0;
+  transform: translateY(50%);
 }

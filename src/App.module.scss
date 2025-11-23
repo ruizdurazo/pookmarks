@@ -35,7 +35,6 @@
   }
 
   & .clearButton {
-    cursor: pointer;
     position: absolute;
     right: 0;
     top: 50%;
@@ -44,6 +43,10 @@
     border: none;
     font-size: 16px;
     color: #808080;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 
@@ -102,6 +105,7 @@
     width: 100%;
     height: 1rem;
     pointer-events: none;
+    z-index: 1;
     background: linear-gradient(
       to bottom,
       var(--bookmark-tree-bg-color),
@@ -130,7 +134,7 @@
   flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 1rem 0;
+  padding: 1rem 0.5rem;
 }
 
 .actionsContainer {
@@ -138,7 +142,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 0 0.5rem 0.5rem;
+  margin: 0.5rem;
 }
 
 .sortTrigger {
@@ -153,12 +157,14 @@
   line-height: 20px;
   padding: 6px 12px;
 
-  &:focus {
-    outline: none;
+  &:focus-visible {
+    color: var(--action-bg-color);
+    outline: 2px solid var(--input-focus-border-color);
     background-color: var(--secondary-action-bg-hover-color);
   }
 
   &:hover {
+    color: var(--action-bg-color);
     background-color: var(--secondary-action-bg-hover-color);
   }
 }
@@ -223,11 +229,13 @@
   background: var(--secondary-action-bg-color);
   color: #808080;
 
-  &:focus {
+  &:focus-visible {
+    color: var(--action-bg-color);
     background-color: var(--secondary-action-bg-hover-color);
   }
 
   &:hover {
+    color: var(--action-bg-color);
     background: var(--secondary-action-bg-hover-color);
   }
 

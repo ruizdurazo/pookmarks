@@ -13,6 +13,11 @@ import { useTranslation } from "react-i18next"
 
 function App() {
   const { t } = useTranslation()
+
+  //
+  // State
+  //
+
   const [bookmarks, setBookmarks] = useState<
     chrome.bookmarks.BookmarkTreeNode[]
   >([])
@@ -166,6 +171,7 @@ function App() {
     const root = document.documentElement
     if (isDarkMode) {
       // Dark mode
+      root.style.setProperty("--app-color", "#320BBD")
       root.style.setProperty("--bg-color", "#222")
       root.style.setProperty("--border-color", "#555")
       root.style.setProperty("--input-border-color", "#444")
@@ -183,6 +189,7 @@ function App() {
       root.style.setProperty("--dialog-bg-color", "#222")
     } else {
       // Light mode
+      root.style.setProperty("--app-color", "#320BBD")
       root.style.setProperty("--bg-color", "#fafafa")
       root.style.setProperty("--border-color", "#ddd")
       root.style.setProperty("--input-border-color", "#ddd")
@@ -443,6 +450,16 @@ function App() {
     }
   }, [visibleNodes, currentId, nodeMap])
 
+  // Sync focus to currentId
+  useEffect(() => {
+    if (currentId) {
+      const element = document.getElementById(`node-${currentId}`)
+      if (element) {
+        element.focus()
+      }
+    }
+  }, [currentId])
+
   useEffect(() => {
     const handleBookmarkChange = () => {
       refreshBookmarks()
@@ -465,12 +482,6 @@ function App() {
 
   return (
     <div className={`App ${isDarkMode ? "dark" : "light"}`}>
-      {/* <div>
-        <button onClick={toggleDarkMode}>
-          Toggle {isDarkMode ? "Light" : "Dark"} Mode
-        </button>
-      </div> */}
-
       {/* Search */}
       <div className={styles.searchContainer}>
         <input
@@ -618,6 +629,7 @@ function App() {
                 openFolders={openFolders}
                 toggleFolder={toggleFolder}
                 currentId={currentId}
+                onSelect={setCurrentId}
                 sortType={sortType}
               />
             )}
@@ -625,6 +637,9 @@ function App() {
         </div>
       </div>
 
+      {/*
+      // Dialogs for adding new bookmark and new folder
+       */}
       {showNewBookmarkDialog && (
         <EditBookmarkDialog
           initialTitle={initialBookmarkData.title}

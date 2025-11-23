@@ -34,9 +34,6 @@ export const handleBookmarkClick = (
         }
         chrome.tabs.onUpdated.addListener(onUpdated)
       }
-      if (document.activeElement instanceof HTMLElement) {
-        document.activeElement.blur()
-      }
     }
   })
 }

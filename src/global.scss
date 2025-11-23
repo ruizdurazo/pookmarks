@@ -1,5 +1,5 @@
 * {
-  font-family: system-ui, Helvetica, Arial, sans-serif;
+  font-family: system-ui, "Inter", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
@@ -55,13 +55,28 @@ body {
 }
 
 button {
-  cursor: pointer;
   border-radius: 20px;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
 
-  &:active {
-    transform: scale(0.98);
+  &:hover {
+    cursor: pointer;
   }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--input-focus-border-color);
+  }
+}
+
+body.is-dragging {
+  cursor: grabbing !important;
+}
+
+body.is-dragging * {
+  cursor: grabbing !important;
 }
