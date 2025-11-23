@@ -15,6 +15,8 @@
   "openAllInNewTabGroup": "Apri tutto ({{count}}) in nuovo gruppo di schede",
   "openInNewTab": "Apri in nuova scheda",
   "openInNewWindow": "Apri in nuova finestra",
+  "openInNewIncognitoWindow": "Apri in nuova finestra in modalità incognito",
+  "openInNewTabGroup": "Apri in nuovo gruppo di schede",
   "copyUrl": "Copia URL",
   "rename": "Rinomina",
   "edit": "Modifica",

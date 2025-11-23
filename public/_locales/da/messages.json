@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Pookmarks",
+    "description": "The name of the extension"
+  },
+  "appDescription": {
+    "message": "En hurtig, gratis, privat, open source Chrome sidepaneludvidelse til at administrere bogmærker.",
+    "description": "The description of the extension"
+  }
+}

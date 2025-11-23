@@ -15,6 +15,8 @@
   "openAllInNewTabGroup": "Ouvrir tout ({{count}}) dans un nouveau groupe d'onglets",
   "openInNewTab": "Ouvrir dans un nouvel onglet",
   "openInNewWindow": "Ouvrir dans une nouvelle fenêtre",
+  "openInNewIncognitoWindow": "Ouvrir dans une nouvelle fenêtre en mode incognito",
+  "openInNewTabGroup": "Ouvrir dans un nouveau groupe d'onglets",
   "copyUrl": "Copier l'URL",
   "rename": "Renommer",
   "edit": "Modifier",

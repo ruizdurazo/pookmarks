@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Pookmarks",
+    "description": "The name of the extension"
+  },
+  "appDescription": {
+    "message": "Gyors, ingyenes, privát, open source Chrome oldalsávbővítmény könyvjelzők kezeléséhez.",
+    "description": "The description of the extension"
+  }
+}
