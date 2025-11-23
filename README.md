@@ -2,9 +2,13 @@
 
 A fast, free, private, open source Chrome Side Panel Extension for managing your bookmarks.
 
+![Pookmarks](./public/pookmarks.png)
+
 Looks like (and works like) a file explorer from a code editor, but for your bookmarks.
 
-It's a wrapper around the Chrome Extension API, so it edits your browser's bookmarks in the same way as if you were using the Chrome bookmarks manager. The result is that the extension is private and runs entirely locally on your machine. It doesn't log your usage or data to any other servers. However, you can still sync your bookmarks across devices using Chrome's built-in sync feature.
+It's a wrapper around the Chrome Extension API, so it edits your browser's bookmarks in the same way as if you were using the Chrome bookmarks manager. 
+
+The result is that the extension is private and runs entirely locally on your machine. It doesn't log your usage or data to any other servers. However, you can still sync your bookmarks across devices using Chrome's built-in sync feature.
 
 ## Tech Stack
 
