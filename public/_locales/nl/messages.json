@@ -1,10 +1,10 @@
 {
   "appName": {
     "message": "Pookmarks",
-    "description": "The name of the extension"
+    "description": "De naam van de extensie"
   },
   "appDescription": {
     "message": "Een snelle, gratis, privé, open source Chrome zijpaneel-extensie voor het beheren van bladwijzers.",
-    "description": "The description of the extension"
+    "description": "De beschrijving van de extensie"
   }
 }

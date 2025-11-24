@@ -1,10 +1,10 @@
 {
   "appName": {
     "message": "Pookmarks",
-    "description": "The name of the extension"
+    "description": "Название расширения"
   },
   "appDescription": {
     "message": "Быстрое, бесплатное, приватное расширение боковой панели с открытым исходным кодом для Chrome для управления закладками.",
-    "description": "The description of the extension"
+    "description": "Описание расширения"
   }
 }

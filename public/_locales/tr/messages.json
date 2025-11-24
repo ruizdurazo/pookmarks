@@ -1,10 +1,10 @@
 {
   "appName": {
     "message": "Pookmarks",
-    "description": "The name of the extension"
+    "description": "Uzantının adı"
   },
   "appDescription": {
     "message": "Yer imlerini yönetmek için hızlı, ücretsiz, özel, açık kaynaklı bir Chrome yan panel uzantısı.",
-    "description": "The description of the extension"
+    "description": "Uzantının açıklaması"
   }
 }

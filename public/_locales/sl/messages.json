@@ -1,10 +1,10 @@
 {
   "appName": {
     "message": "Pookmarks",
-    "description": "The name of the extension"
+    "description": "Naziv razširitve"
   },
   "appDescription": {
     "message": "Hitra, brezplačna, zasebna, odprtokodna razširitev stranske plošče za Chrome za upravljanje zaznamkov.",
-    "description": "The description of the extension"
+    "description": "Opis razširitve"
   }
 }

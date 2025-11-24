@@ -1,10 +1,10 @@
 {
   "appName": {
     "message": "Pookmarks",
-    "description": "The name of the extension"
+    "description": "확장 프로그램 이름"
   },
   "appDescription": {
     "message": "북마크 관리를 위한 빠르고 무료이며 비공개 오픈 소스 Chrome 측면 패널 확장 프로그램입니다.",
-    "description": "The description of the extension"
+    "description": "확장 프로그램 설명"
   }
 }
