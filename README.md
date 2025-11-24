@@ -61,9 +61,10 @@ The result is that the extension is private and runs entirely locally on your ma
 ## Installing locally
 
 1. Clone the repository
-2. Run `npm install`
-3. Run `npm run build`
-4. Go to `chrome://extensions/`
-5. Enable "Developer mode"
-6. Click "Load unpacked"
-7. Select the `dist` folder (the folder that was created when you ran `npm run build`)
+2. Open the project directory (in your editor or terminal)
+3. Run `npm install` or `pnpm install`
+4. Run `npm run build` or `pnpm run build`
+5. In Chrome, go to `chrome://extensions/`
+6. Enable "Developer mode"
+7. Click "Load unpacked"
+8. Select the `dist` folder (the folder that was created when you ran `npm run build` or `pnpm run build`)
