@@ -165,6 +165,7 @@ function App() {
 
   // const [lastFocusedId, setLastFocusedId] = useState<string | null>(null);
   const [currentId, setCurrentId] = useState<string | null>(null)
+  const [shouldCenterFocus, setShouldCenterFocus] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -312,6 +313,7 @@ function App() {
         current = node.parentId
       }
       setOpenFolders(newOpenFolders)
+      setShouldCenterFocus(true)
       setCurrentId(nodeId)
     },
     [nodeMap, setOpenFolders, setSearchQuery, setCurrentId],
@@ -455,10 +457,16 @@ function App() {
     if (currentId) {
       const element = document.getElementById(`node-${currentId}`)
       if (element) {
-        element.focus()
+        if (shouldCenterFocus) {
+          element.scrollIntoView() // Scroll the element into view
+          element.focus({ preventScroll: true })
+          setShouldCenterFocus(false)
+        } else if (document.activeElement !== element) {
+          element.focus()
+        }
       }
     }
-  }, [currentId])
+  }, [currentId, shouldCenterFocus])
 
   useEffect(() => {
     const handleBookmarkChange = () => {

@@ -1,4 +1,4 @@
-// List
+// Boobmarks tree
 .tree {
   display: flex;
   flex-direction: column;
@@ -13,6 +13,7 @@
   border-radius: 4px;
   background: none;
   position: relative; // For positioning drop indicator
+  scroll-margin-top: 1rem;
 
   &:focus {
     outline: none;
@@ -29,7 +30,7 @@
   align-items: center;
   gap: 0.5em;
   width: 100%;
-  border-radius: 4px; // Round corners for better look
+  border-radius: 4px; // Round corners
 
   &:focus {
     background-color: var(--bookmark-bg-color);

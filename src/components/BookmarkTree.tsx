@@ -130,7 +130,9 @@ export default function BookmarkTree({
   onSelect,
   sortType,
 }: BookmarkTreeProps) {
-  const [items, setItems] = useState<FlattenedItem[]>([])
+  const [items, setItems] = useState<FlattenedItem[]>(() =>
+    flattenTree(nodes, openFolders),
+  )
   const [activeId, setActiveId] = useState<string | null>(null)
   const [overId, setOverId] = useState<string | null>(null)
   const [offsetLeft, setOffsetLeft] = useState(0)

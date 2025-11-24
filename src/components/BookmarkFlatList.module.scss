@@ -1,11 +1,16 @@
+// Boobmarks search results flat list
 .list {
-  list-style: none;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
 }
 
 .item {
   padding: 0.4em 0.8em;
   height: 32px;
+  border-radius: 4px; // Round corners
+  background-color: var(--bookmark-tree-bg-color);
 
   &:hover {
     background-color: var(--bookmark-bg-color);
@@ -18,6 +23,15 @@
   align-items: center;
   gap: 0.5em;
   font-weight: 500;
+}
+
+.bookmark {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--bookmark-color);
+  text-decoration: none;
 }
 
 .icon {
@@ -39,17 +53,9 @@
   }
 }
 
-.bookmark {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5em;
-  color: var(--bookmark-color);
-  text-decoration: none;
-}
-
 .title {
   flex: 1;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
