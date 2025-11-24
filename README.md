@@ -6,7 +6,7 @@ A fast, free, private, open source Chrome Side Panel Extension for managing your
 
 Looks like (and works like) a file explorer from a code editor, but for your bookmarks.
 
-It's a wrapper around the Chrome Extension API, so it edits your browser's bookmarks in the same way as if you were using the Chrome bookmarks manager. 
+It's a wrapper around the Chrome Extension API, so it edits your browser's bookmarks in the same way as if you were using the Chrome bookmarks manager.
 
 The result is that the extension is private and runs entirely locally on your machine. It doesn't log your usage or data to any other servers. However, you can still sync your bookmarks across devices using Chrome's built-in sync feature.
 
@@ -57,6 +57,7 @@ The result is that the extension is private and runs entirely locally on your ma
 - [x] Optional: Add more languages (Dutch, Swedish, Norwegian, Danish, Finnish, Greek)
 - [x] Optional: Add even more languages (Polish, Czech, Slovak, Hungarian, Croatian, Slovenian, Estonian, Latvian, Lithuanian)
 - [x] Optional: Add even even more languages (Chinese, Japanese, Korean, Russian, Turkish)
+- [ ] Optional: Fix bug where tab focused action buttons can't be triggered by using enter key.
 
 ## Installing locally
 
