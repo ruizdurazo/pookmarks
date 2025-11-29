@@ -108,7 +108,7 @@ function getParentIdAtDepth(
   return undefined
 }
 
-// experimental function to reorder the tree list
+// New function to reorder the tree list
 export function reorderTreeList(
   items: FlattenedItem[],
   activeId: string,

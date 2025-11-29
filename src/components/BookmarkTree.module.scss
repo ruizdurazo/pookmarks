@@ -30,7 +30,7 @@
   align-items: center;
   gap: 0.5em;
   width: 100%;
-  border-radius: 4px; // Round corners
+  border-radius: 4px;
 
   &:focus {
     background-color: var(--bookmark-bg-color);
@@ -57,7 +57,6 @@
   gap: 0.5em;
 }
 
-// Link (anchor tag)
 .bookmark {
   display: flex;
   flex-direction: row;
@@ -136,10 +135,6 @@
   border-radius: 4px;
   opacity: 0.9;
   padding: 0 4px;
-
-  // Ensure the node inside the overlay respects indentation if needed,
-  // but usually overlay is just the item.
-  // We passed depth=0 to overlay so indentation is 0.
 }
 
 .dropIndicator {
@@ -150,7 +145,7 @@
   z-index: 1;
   pointer-events: none;
 
-  // Add a circle at the start like Chrome does?
+  // Circle
   &::before {
     content: "";
     position: absolute;
@@ -161,12 +156,12 @@
     left: 0;
     top: 1px;
     transform: translate(-50%, -50%);
-    border: 2px solid var(--bookmark-tree-bg-color); // Mask border
+    border: 2px solid var(--bookmark-tree-bg-color);
   }
 }
 
 .top {
-  top: 0; // Or -1px to overlap border?
+  top: 0;
   transform: translateY(-50%);
 }
 

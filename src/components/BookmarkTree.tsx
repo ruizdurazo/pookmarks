@@ -349,8 +349,6 @@ export default function BookmarkTree({
                 showDropIndicator={showDropIndicator}
                 dropIndicatorDepth={dropIndicatorDepth}
                 isDraggingActive={!!activeId}
-                // Pass `transform: null` to prevent Sortable's CSS transform from applying
-                // We handle visual feedback via line indicator and overlay
               />
             )
           })}

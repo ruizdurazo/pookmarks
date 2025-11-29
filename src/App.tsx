@@ -172,7 +172,7 @@ function App() {
     const root = document.documentElement
     if (isDarkMode) {
       // Dark mode
-      root.style.setProperty("--app-color", "#320BBD")
+      root.style.setProperty("--app-color", "#5e35ef")
       root.style.setProperty("--bg-color", "#222")
       root.style.setProperty("--border-color", "#555")
       root.style.setProperty("--input-border-color", "#444")
@@ -190,7 +190,7 @@ function App() {
       root.style.setProperty("--dialog-bg-color", "#222")
     } else {
       // Light mode
-      root.style.setProperty("--app-color", "#4e26e1")
+      root.style.setProperty("--app-color", "#320BBD")
       root.style.setProperty("--bg-color", "#fafafa")
       root.style.setProperty("--border-color", "#ddd")
       root.style.setProperty("--input-border-color", "#ddd")

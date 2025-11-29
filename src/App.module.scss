@@ -97,7 +97,7 @@
   flex: 1 1 auto;
   overflow: hidden;
 
-  //   gradient at the top
+  // Gradient at the top
   &::before {
     content: "";
     position: absolute;
@@ -114,7 +114,7 @@
     );
   }
 
-  //   gradient at the bottom
+  // Gradient at the bottom
   &::after {
     content: "";
     position: absolute;
