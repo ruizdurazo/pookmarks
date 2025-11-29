@@ -57,7 +57,7 @@ The result is that the extension is private and runs entirely locally on your ma
 - [x] Optional: Add more languages (Dutch, Swedish, Norwegian, Danish, Finnish, Greek)
 - [x] Optional: Add even more languages (Polish, Czech, Slovak, Hungarian, Croatian, Slovenian, Estonian, Latvian, Lithuanian)
 - [x] Optional: Add even even more languages (Chinese, Japanese, Korean, Russian, Turkish)
-- [ ] Optional: Fix bug where tab focused action buttons can't be triggered by using enter key.
+- [x] Optional: Fix bug where tab focused action buttons can't be triggered by using enter key because the selected item on the tree or flat list will be triggered instead.
 
 ## Installing locally
 

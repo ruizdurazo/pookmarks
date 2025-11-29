@@ -190,7 +190,7 @@ function App() {
       root.style.setProperty("--dialog-bg-color", "#222")
     } else {
       // Light mode
-      root.style.setProperty("--app-color", "#320BBD")
+      root.style.setProperty("--app-color", "#4e26e1")
       root.style.setProperty("--bg-color", "#fafafa")
       root.style.setProperty("--border-color", "#ddd")
       root.style.setProperty("--input-border-color", "#ddd")
@@ -325,6 +325,16 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore keydown events from buttons with specific ids
+      const target = e.target as HTMLElement
+      if (
+        target.id === "add-bookmark-button" ||
+        target.id === "add-folder-button" ||
+        target.id === "sort-trigger"
+      ) {
+        return
+      }
+
       if (!currentId) return
       let currentIndex = visibleNodes.findIndex((v) => v.id === currentId)
       if (currentIndex === -1) {
@@ -516,7 +526,6 @@ function App() {
         role="tree"
         aria-activedescendant={currentId ? `bookmark-${currentId}` : undefined}
         className={styles.bookmarksContainer}
-        tabIndex={0}
         onFocus={() => {
           if (searchQuery) return
           if (!currentId && visibleNodes.length > 0) {
@@ -549,6 +558,7 @@ function App() {
           {/* Buttons for adding new a bookmark and new folder */}
           <div className={styles.actions}>
             <button
+              id="add-bookmark-button"
               type="button"
               title="Add Bookmark"
               className={styles.actionButton}
@@ -558,6 +568,7 @@ function App() {
               <span>{t("addBookmark")}</span>
             </button>
             <button
+              id="add-folder-button"
               type="button"
               title="Add Folder"
               className={styles.actionButton}
@@ -574,6 +585,7 @@ function App() {
             onValueChange={(value) => setSortType(value as typeof sortType)}
           >
             <Select.Trigger
+              id="sort-trigger"
               className={styles.sortTrigger}
               aria-label="Sort"
               title="Sort"
@@ -617,7 +629,7 @@ function App() {
         </div>
 
         {/* Bookmarks */}
-        <div className={styles.bookmarksListContainer}>
+        <div tabIndex={0} className={styles.bookmarksListContainer}>
           <div className={styles.bookmarksList}>
             {searchQuery ? (
               searchResults.forQuery === searchQuery ? (
