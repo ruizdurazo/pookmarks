@@ -130,6 +130,7 @@ export default function BookmarkTree({
   onSelect,
   sortType,
 }: BookmarkTreeProps) {
+  const treeContainerRef = useRef<HTMLDivElement | null>(null)
   const [items, setItems] = useState<FlattenedItem[]>(() =>
     flattenTree(nodes, openFolders),
   )
@@ -308,7 +309,7 @@ export default function BookmarkTree({
         strategy={verticalListSortingStrategy}
         disabled={sortType !== "none"}
       >
-        <div className={styles.tree} role="tree">
+        <div className={styles.tree} role="tree" ref={treeContainerRef}>
           {items.map((item) => {
             // Calculate line indicator props
             let showDropIndicator: "top" | "bottom" | null = null
@@ -336,6 +337,7 @@ export default function BookmarkTree({
 
             return (
               <SortableBookmarkNode
+                treeContainerRef={treeContainerRef}
                 key={item.id}
                 item={item}
                 depth={item.depth}
@@ -363,6 +365,7 @@ export default function BookmarkTree({
           {activeItem ? (
             <div className={styles.dragOverlay}>
               <SortableBookmarkNode
+                treeContainerRef={treeContainerRef}
                 item={activeItem}
                 depth={0}
                 indentationWidth={INDENTATION_WIDTH}
@@ -381,6 +384,7 @@ export default function BookmarkTree({
 }
 
 interface SortableBookmarkNodeProps {
+  treeContainerRef: React.RefObject<HTMLDivElement | null>
   item: FlattenedItem
   depth: number
   indentationWidth: number
@@ -397,6 +401,7 @@ interface SortableBookmarkNodeProps {
 }
 
 function SortableBookmarkNode({
+  treeContainerRef,
   item,
   depth,
   indentationWidth,
@@ -439,7 +444,9 @@ function SortableBookmarkNode({
   } as React.CSSProperties
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-
+  const clickPositionRef = useRef<{ x: number; y: number } | null>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [menuElement, setMenuElement] = useState<HTMLDivElement | null>(null)
   const bookmarkCount = isFolder ? getBookmarkCount(item) : 0
 
   const toggleOpen = () => {
@@ -486,6 +493,50 @@ function SortableBookmarkNode({
     }
   }
 
+  const [isMenuOpening, setIsMenuOpening] = useState(false)
+
+  useEffect(() => {
+    // console.log("isMenuOpening", isMenuOpening)
+    // console.log("clickPositionRef", clickPositionRef.current)
+    // console.log("menuElement", menuElement)
+    if (isMenuOpening && clickPositionRef.current && menuElement) {
+      requestAnimationFrame(() => {
+        const menu = menuElement // Use the state-captured element
+        // console.log("menu", menu)
+        if (!menu) return // Safety check, though unlikely now
+
+        const menuRect = menu.getBoundingClientRect()
+        const padding = 8 // Buffer to avoid edge cutoff
+
+        let left = clickPositionRef.current?.x ?? 0
+        // console.log("left", left)
+        if (left + menuRect.width + padding > document.body.clientWidth) {
+          // console.log("width overflow")
+          left = -(
+            left -
+            (document.body.clientWidth - menuRect.width - padding)
+          )
+        } else {
+          left = 0
+        }
+
+        let top = clickPositionRef.current?.y ?? 0
+        // console.log("top", top)
+        if (top + menuRect.height + padding > document.body.clientHeight) {
+          // console.log("height overflow")
+          top = -menuRect.height
+        } else {
+          top = 0
+        }
+
+        menu.style.position = "absolute"
+        menu.style.left = `${left}px`
+        menu.style.top = `${top}px`
+        menu.style.transform = "none" // Override any Floating UI transform
+      })
+    }
+  }, [isMenuOpening, menuElement]) // Re-run when opening or when element mounts
+
   return (
     <button
       type="button"
@@ -499,7 +550,11 @@ function SortableBookmarkNode({
       aria-selected={currentId === id}
       onFocus={() => onSelect?.(id)}
     >
-      <ContextMenu.Root>
+      <ContextMenu.Root
+        onOpenChange={(open) => {
+          setIsMenuOpening(open) // Triggers the useEffect on true
+        }}
+      >
         <ContextMenu.Trigger asChild>
           <div
             className={clsx(
@@ -508,6 +563,9 @@ function SortableBookmarkNode({
             )}
             {...listeners}
             id={`bookmark-${id}`}
+            onContextMenu={(e) =>
+              (clickPositionRef.current = { x: e.clientX, y: e.clientY })
+            }
           >
             {isFolder ? (
               <div
@@ -559,7 +617,16 @@ function SortableBookmarkNode({
 
         {!isTopLevel && !isOverlay && (
           <ContextMenu.Portal>
-            <ContextMenu.Content className={styles.contextMenu}>
+            <ContextMenu.Content
+              ref={(el) => {
+                contentRef.current = el // Keep the mutable ref for other uses if needed
+                setMenuElement(el) // Trigger state update when mounted/unmounted
+              }}
+              className={styles.contextMenu}
+              collisionBoundary={treeContainerRef.current}
+              avoidCollisions={true}
+              sticky="partial"
+            >
               {isFolder ? (
                 <>
                   <ContextMenu.Item
