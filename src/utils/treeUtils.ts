@@ -42,6 +42,40 @@ export function findItem(items: FlattenedItem[], itemId: string) {
   return items.find(({ id }) => id === itemId)
 }
 
+/** True when `nodeId` is a direct or nested child of `folderId` (walks parent chain upward). */
+export function isStrictDescendantOfFolder(
+  items: FlattenedItem[],
+  folderId: string,
+  nodeId: string,
+): boolean {
+  let cur: string | undefined = nodeId
+  while (cur) {
+    const item = items.find((i) => i.id === cur)
+    if (!item?.parentId) return false
+    if (item.parentId === folderId) return true
+    cur = item.parentId
+  }
+  return false
+}
+
+/**
+ * In sorted tree mode, the drop target may be a folder row or a bookmark row.
+ * Hovering a bookmark means "drop into that bookmark's parent folder."
+ */
+export function getSortedModeTargetFolder(
+  items: FlattenedItem[],
+  overId: string,
+): FlattenedItem | null {
+  const overItem = items.find((i) => i.id === overId)
+  if (!overItem) return null
+  if (overItem.isFolder) return overItem
+  const parentId = overItem.parentId
+  if (!parentId) return null
+  const parent = items.find((i) => i.id === parentId)
+  if (!parent?.isFolder) return null
+  return parent
+}
+
 export function getDragDepth(offset: number, indentationWidth: number) {
   return Math.round(offset / indentationWidth)
 }

@@ -41,6 +41,8 @@ import {
   flattenTree,
   type FlattenedItem,
   getProjection,
+  getSortedModeTargetFolder,
+  isStrictDescendantOfFolder,
   reorderTreeList,
 } from "../utils/treeUtils"
 import { createPortal } from "react-dom"
@@ -160,11 +162,16 @@ export default function BookmarkTree({
     : null
 
   const projected =
-    activeId && overId && activeItem
+    sortType === "none" && activeId && overId && activeItem
       ? getProjection(items, activeId, overId, offsetLeft, INDENTATION_WIDTH)
       : null
 
   const sortedIds = useMemo(() => items.map(({ id }) => id), [items])
+
+  const sortedModeDropTargetFolderId =
+    sortType !== "none" && activeId && overId
+      ? getSortedModeTargetFolder(items, overId)?.id ?? null
+      : null
 
   function handleDragStart({ active }: DragStartEvent) {
     setActiveId(active.id as string)
@@ -229,6 +236,36 @@ export default function BookmarkTree({
     }
 
     if (sortType !== "none") {
+      if (!over || active.id === over.id) {
+        resetState()
+        return
+      }
+
+      const dragged = items.find((i) => i.id === active.id)
+      const targetFolder = getSortedModeTargetFolder(
+        items,
+        over.id as string,
+      )
+      if (
+        !dragged ||
+        !targetFolder ||
+        targetFolder.id === dragged.id ||
+        targetFolder.id === dragged.parentId
+      ) {
+        resetState()
+        return
+      }
+      if (
+        dragged.isFolder &&
+        isStrictDescendantOfFolder(items, dragged.id, targetFolder.id)
+      ) {
+        resetState()
+        return
+      }
+
+      chrome.bookmarks.move(active.id as string, { parentId: targetFolder.id }, () => {
+        onRefresh()
+      })
       resetState()
       return
     }
@@ -304,16 +341,13 @@ export default function BookmarkTree({
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
     >
-      <SortableContext
-        items={sortedIds}
-        strategy={verticalListSortingStrategy}
-        disabled={sortType !== "none"}
-      >
+      <SortableContext items={sortedIds} strategy={verticalListSortingStrategy}>
         <div className={styles.tree} role="tree" ref={treeContainerRef}>
           {items.map((item) => {
             // Calculate line indicator props
             let showDropIndicator: "top" | "bottom" | null = null
             let dropIndicatorDepth = item.depth
+            let showFolderDropTarget = false
 
             if (
               activeId &&
@@ -335,6 +369,26 @@ export default function BookmarkTree({
               }
             }
 
+            if (
+              sortType !== "none" &&
+              sortedModeDropTargetFolderId &&
+              item.id === sortedModeDropTargetFolderId &&
+              item.isFolder
+            ) {
+              const dragged = items.find((i) => i.id === activeId)
+              if (
+                dragged &&
+                item.id !== dragged.id &&
+                item.id !== dragged.parentId &&
+                !(
+                  dragged.isFolder &&
+                  isStrictDescendantOfFolder(items, dragged.id, item.id)
+                )
+              ) {
+                showFolderDropTarget = true
+              }
+            }
+
             return (
               <SortableBookmarkNode
                 treeContainerRef={treeContainerRef}
@@ -347,9 +401,9 @@ export default function BookmarkTree({
                 toggleFolder={toggleFolder}
                 currentId={currentId}
                 onSelect={onSelect}
-                sortType={sortType}
                 showDropIndicator={showDropIndicator}
                 dropIndicatorDepth={dropIndicatorDepth}
+                showFolderDropTarget={showFolderDropTarget}
                 isDraggingActive={!!activeId}
               />
             )
@@ -393,10 +447,10 @@ interface SortableBookmarkNodeProps {
   toggleFolder: (id: string) => void
   currentId?: string | null
   onSelect?: (id: string | null) => void
-  sortType?: "none" | "newest" | "oldest" | "a-z" | "z-a"
   isOverlay?: boolean
   showDropIndicator?: "top" | "bottom" | null
   dropIndicatorDepth?: number
+  showFolderDropTarget?: boolean
   isDraggingActive?: boolean
 }
 
@@ -410,10 +464,10 @@ function SortableBookmarkNode({
   toggleFolder,
   currentId,
   onSelect,
-  sortType,
   isOverlay,
   showDropIndicator,
   dropIndicatorDepth = 0,
+  showFolderDropTarget,
   isDraggingActive,
 }: SortableBookmarkNodeProps) {
   const { t } = useTranslation()
@@ -432,7 +486,7 @@ function SortableBookmarkNode({
     isDragging,
   } = useSortable({
     id: item.id,
-    disabled: isTopLevel || sortType !== "none",
+    disabled: isTopLevel,
   })
 
   // Disable transform for list items to prevent shuffling
@@ -543,7 +597,11 @@ function SortableBookmarkNode({
       id={`node-${id}`}
       ref={setNodeRef}
       style={style}
-      className={clsx(styles.node, isDragging && styles.dragging)}
+      className={clsx(
+        styles.node,
+        isDragging && styles.dragging,
+        showFolderDropTarget && styles.folderDropTarget,
+      )}
       {...attributes}
       role="treeitem"
       aria-expanded={isFolder ? isFolderOpen : undefined}

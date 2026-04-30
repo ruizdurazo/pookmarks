@@ -25,6 +25,12 @@
   opacity: 0.5;
 }
 
+.folderDropTarget {
+  outline: 2px solid var(--app-color);
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+
 .nodeContent {
   display: flex;
   flex-direction: row;
