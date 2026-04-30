@@ -33,5 +33,7 @@
   "newFolderDescription": "Skapa en ny mapp genom att ange en titel och välja en överordnad mapp.",
   "editFolderDescription": "Redigera mappens titel och överordnade mapp.",
   "newBookmarkDescription": "Skapa ett nytt bokmärke genom att ange en titel, URL och välja en överordnad mapp.",
-  "editBookmarkDescription": "Redigera bokmärkets titel, URL och överordnade mapp."
+  "editBookmarkDescription": "Redigera bokmärkets titel, URL och överordnade mapp.",
+  "previewLoading": "Läser in förhandsgranskning...",
+  "previewUnavailable": "Förhandsgranskning inte tillgänglig"
 }

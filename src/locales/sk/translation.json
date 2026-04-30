@@ -33,5 +33,7 @@
   "newFolderDescription": "Vytvorte nový priečinok zadaním názvu a výberom nadradeného priečinka.",
   "editFolderDescription": "Upravte názov priečinka a nadradený priečinok.",
   "newBookmarkDescription": "Vytvorte novú záložku zadaním názvu, URL a výberom nadradeného priečinka.",
-  "editBookmarkDescription": "Upravte názov záložky, URL a nadradený priečinok."
+  "editBookmarkDescription": "Upravte názov záložky, URL a nadradený priečinok.",
+  "previewLoading": "Načítava sa ukážka...",
+  "previewUnavailable": "Ukážka nie je k dispozícii"
 }

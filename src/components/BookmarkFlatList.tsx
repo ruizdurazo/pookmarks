@@ -1,7 +1,15 @@
 import styles from "./BookmarkFlatList.module.scss"
 import * as ContextMenu from "@radix-ui/react-context-menu"
 import EditBookmarkDialog from "./EditBookmarkDialog"
-import { useRef, useState, useEffect } from "react"
+import {
+  forwardRef,
+  useRef,
+  useState,
+  useEffect,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+} from "react"
+import { useBookmarkPreview } from "../hooks/useBookmarkPreview"
 import { handleBookmarkClick } from "../utils/bookmarkNavigation"
 import {
   getBookmarkCount,
@@ -133,9 +141,10 @@ const BookmarkFlatList = ({
                     </div>
                   </button>
                 ) : (
-                  <button
-                    type="button"
-                    className={`${styles.item} ${styles.bookmark}`}
+                  <BookmarkFlatListBookmarkButton
+                    highlightText={highlightText}
+                    node={node}
+                    searchQuery={searchQuery}
                     onClick={(event) => {
                       handleBookmarkClick(event, node.url)
                       ;(event.currentTarget as HTMLElement).blur() // Release focus from extension
@@ -146,14 +155,7 @@ const BookmarkFlatList = ({
                         y: e.clientY,
                       })
                     }
-                  >
-                    <div className={`${styles.icon} ${styles.bookmarkIcon}`}>
-                      {getBookmarkIcon(node.url)}
-                    </div>
-                    <div className={styles.title}>
-                      {highlightText(node.title, searchQuery)}
-                    </div>
-                  </button>
+                  />
                 )}
               </ContextMenu.Trigger>
 
@@ -293,3 +295,41 @@ const BookmarkFlatList = ({
 }
 
 export default BookmarkFlatList
+
+interface BookmarkFlatListBookmarkButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
+  highlightText: (text: string, query: string) => ReactNode
+  node: chrome.bookmarks.BookmarkTreeNode
+  searchQuery: string
+}
+
+const BookmarkFlatListBookmarkButton = forwardRef<
+  HTMLDivElement,
+  BookmarkFlatListBookmarkButtonProps
+>(function BookmarkFlatListBookmarkButton(
+  { className, highlightText, node, searchQuery, ...buttonProps },
+  ref,
+) {
+  const { previewElement, previewTriggerProps } = useBookmarkPreview({
+    fallbackTitle: node.title,
+    url: node.url || undefined,
+  })
+
+  return (
+    <div ref={ref} className={styles.bookmarkRow} {...previewTriggerProps}>
+      <button
+        type="button"
+        className={`${styles.item} ${styles.bookmark} ${className ?? ""}`}
+        {...buttonProps}
+      >
+        <div className={`${styles.icon} ${styles.bookmarkIcon}`}>
+          {getBookmarkIcon(node.url)}
+        </div>
+        <div className={styles.title}>
+          {highlightText(node.title, searchQuery)}
+        </div>
+      </button>
+      {previewElement}
+    </div>
+  )
+})

@@ -33,5 +33,7 @@
   "newFolderDescription": "Ustvarite novo mapo z vnosom naslova in izbiro nadrejene mape.",
   "editFolderDescription": "Uredite naslov mape in nadrejeno mapo.",
   "newBookmarkDescription": "Ustvarite nov zaznamek z vnosom naslova, URL-ja in izbiro nadrejene mape.",
-  "editBookmarkDescription": "Uredite naslov zaznamka, URL in nadrejeno mapo."
+  "editBookmarkDescription": "Uredite naslov zaznamka, URL in nadrejeno mapo.",
+  "previewLoading": "Nalaganje predogleda...",
+  "previewUnavailable": "Predogled ni na voljo"
 }

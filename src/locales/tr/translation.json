@@ -33,5 +33,7 @@
   "newFolderDescription": "Bir başlık girerek ve bir üst klasör seçerek yeni bir klasör oluşturun.",
   "editFolderDescription": "Klasörün başlığını ve üst klasörünü düzenleyin.",
   "newBookmarkDescription": "Bir başlık, URL girerek ve bir üst klasör seçerek yeni bir yer imi oluşturun.",
-  "editBookmarkDescription": "Yer iminin başlığını, URL'sini ve üst klasörünü düzenleyin."
+  "editBookmarkDescription": "Yer iminin başlığını, URL'sini ve üst klasörünü düzenleyin.",
+  "previewLoading": "Ön izleme yükleniyor...",
+  "previewUnavailable": "Ön izleme kullanılamıyor"
 }

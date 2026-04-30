@@ -33,5 +33,7 @@
   "newFolderDescription": "Hozzon létre új mappát a cím megadásával és a szülőmappa kiválasztásával.",
   "editFolderDescription": "Szerkessze a mappa címét és a szülőmappát.",
   "newBookmarkDescription": "Hozzon létre új könyvjelzőt a cím és az URL megadásával, valamint a szülőmappa kiválasztásával.",
-  "editBookmarkDescription": "Szerkessze a könyvjelző címét, URL-jét és a szülőmappát."
+  "editBookmarkDescription": "Szerkessze a könyvjelző címét, URL-jét és a szülőmappát.",
+  "previewLoading": "Előnézet betöltése...",
+  "previewUnavailable": "Előnézet nem érhető el"
 }

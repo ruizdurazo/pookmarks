@@ -33,5 +33,7 @@
   "newFolderDescription": "Luo uusi kansio antamalla otsikko ja valitsemalla yläkansio.",
   "editFolderDescription": "Muokkaa kansion otsikkoa ja yläkansiota.",
   "newBookmarkDescription": "Luo uusi kirjanmerkki antamalla otsikko, URL ja valitsemalla yläkansio.",
-  "editBookmarkDescription": "Muokkaa kirjanmerkin otsikkoa, URL-osoitetta ja yläkansiota."
+  "editBookmarkDescription": "Muokkaa kirjanmerkin otsikkoa, URL-osoitetta ja yläkansiota.",
+  "previewLoading": "Ladataan esikatselua...",
+  "previewUnavailable": "Esikatselu ei ole saatavilla"
 }

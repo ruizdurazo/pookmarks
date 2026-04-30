@@ -33,5 +33,7 @@
   "newFolderDescription": "Cree una nueva carpeta ingresando un título y seleccionando una carpeta principal.",
   "editFolderDescription": "Edite el título y la carpeta principal de la carpeta.",
   "newBookmarkDescription": "Cree un nuevo marcador ingresando un título, URL y seleccionando una carpeta principal.",
-  "editBookmarkDescription": "Edite el título, URL y carpeta principal del marcador."
+  "editBookmarkDescription": "Edite el título, URL y carpeta principal del marcador.",
+  "previewLoading": "Cargando vista previa...",
+  "previewUnavailable": "Vista previa no disponible"
 }

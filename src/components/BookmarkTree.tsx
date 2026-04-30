@@ -24,6 +24,7 @@ import {
 import { CSS } from "@dnd-kit/utilities"
 import * as ContextMenu from "@radix-ui/react-context-menu"
 import EditBookmarkDialog from "./EditBookmarkDialog"
+import { useBookmarkPreview } from "../hooks/useBookmarkPreview"
 import { handleBookmarkClick } from "../utils/bookmarkNavigation"
 import { clsx } from "clsx"
 import {
@@ -502,6 +503,11 @@ function SortableBookmarkNode({
   const contentRef = useRef<HTMLDivElement>(null)
   const [menuElement, setMenuElement] = useState<HTMLDivElement | null>(null)
   const bookmarkCount = isFolder ? getBookmarkCount(item) : 0
+  const { previewElement, previewTriggerProps } = useBookmarkPreview({
+    disabled: isOverlay || isDraggingActive || isDragging,
+    fallbackTitle: title,
+    url,
+  })
 
   const toggleOpen = () => {
     onSelect?.(id)
@@ -642,11 +648,11 @@ function SortableBookmarkNode({
               </div>
             ) : (
               <div
-                title={title}
                 className={clsx(
                   styles.bookmark,
                   currentId === id && styles.highlight,
                 )}
+                {...previewTriggerProps}
                 onClick={(event) => {
                   onSelect?.(id)
                   if (url) {
@@ -774,6 +780,7 @@ function SortableBookmarkNode({
           onClose={() => setIsDialogOpen(false)}
         />
       )}
+      {previewElement}
     </button>
   )
 }

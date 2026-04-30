@@ -33,5 +33,7 @@
   "newFolderDescription": "输入标题并选择父文件夹以创建新文件夹。",
   "editFolderDescription": "编辑文件夹的标题和父文件夹。",
   "newBookmarkDescription": "输入标题、网址并选择父文件夹以创建新书签。",
-  "editBookmarkDescription": "编辑书签的标题、网址和父文件夹。"
+  "editBookmarkDescription": "编辑书签的标题、网址和父文件夹。",
+  "previewLoading": "正在加载预览...",
+  "previewUnavailable": "预览不可用"
 }

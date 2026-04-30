@@ -33,5 +33,7 @@
   "newFolderDescription": "Create a new folder by entering a title and selecting a parent folder.",
   "editFolderDescription": "Edit the folder's title and parent folder.",
   "newBookmarkDescription": "Create a new bookmark by entering a title, URL, and selecting a parent folder.",
-  "editBookmarkDescription": "Edit the bookmark's title, URL, and parent folder."
+  "editBookmarkDescription": "Edit the bookmark's title, URL, and parent folder.",
+  "previewLoading": "Loading preview...",
+  "previewUnavailable": "Preview unavailable"
 }

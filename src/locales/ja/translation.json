@@ -33,5 +33,7 @@
   "newFolderDescription": "タイトルを入力し、親フォルダを選択して新しいフォルダを作成します。",
   "editFolderDescription": "フォルダのタイトルと親フォルダを編集します。",
   "newBookmarkDescription": "タイトル、URLを入力し、親フォルダを選択して新しいブックマークを作成します。",
-  "editBookmarkDescription": "ブックマークのタイトル、URL、親フォルダを編集します。"
+  "editBookmarkDescription": "ブックマークのタイトル、URL、親フォルダを編集します。",
+  "previewLoading": "プレビューを読み込み中...",
+  "previewUnavailable": "プレビューを利用できません"
 }

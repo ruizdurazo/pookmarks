@@ -33,5 +33,7 @@
   "newFolderDescription": "Izveidojiet jaunu mapi, ievadot nosaukumu un izvēloties virsmapi.",
   "editFolderDescription": "Rediģēt mapes nosaukumu un virsmapi.",
   "newBookmarkDescription": "Izveidojiet jaunu grāmatzīmi, ievadot nosaukumu, URL un izvēloties virsmapi.",
-  "editBookmarkDescription": "Rediģēt grāmatzīmes nosaukumu, URL un virsmapi."
+  "editBookmarkDescription": "Rediģēt grāmatzīmes nosaukumu, URL un virsmapi.",
+  "previewLoading": "Ielādē priekšskatījumu...",
+  "previewUnavailable": "Priekšskatījums nav pieejams"
 }

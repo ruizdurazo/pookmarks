@@ -33,5 +33,7 @@
   "newFolderDescription": "Utwórz nowy folder, wprowadzając tytuł i wybierając folder nadrzędny.",
   "editFolderDescription": "Edytuj tytuł folderu i folder nadrzędny.",
   "newBookmarkDescription": "Utwórz nową zakładkę, wprowadzając tytuł, adres URL i wybierając folder nadrzędny.",
-  "editBookmarkDescription": "Edytuj tytuł zakładki, adres URL i folder nadrzędny."
+  "editBookmarkDescription": "Edytuj tytuł zakładki, adres URL i folder nadrzędny.",
+  "previewLoading": "Wczytywanie podglądu...",
+  "previewUnavailable": "Podgląd niedostępny"
 }

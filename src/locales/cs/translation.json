@@ -10,7 +10,7 @@
   "sortAZ": "A-Z",
   "sortZA": "Z-A",
   "searching": "Hledání...",
-  "openAll": "Otevřít vše ({{count}})" ,
+  "openAll": "Otevřít vše ({{count}})",
   "openAllInNewWindow": "Otevřít vše ({{count}}) v novém okně",
   "openAllInNewTabGroup": "Otevřít vše ({{count}}) v nové skupině karet",
   "openInNewTab": "Otevřít na nové kartě",
@@ -33,5 +33,7 @@
   "newFolderDescription": "Vytvořte novou složku zadáním názvu a výběrem nadřazené složky.",
   "editFolderDescription": "Upravte název složky a nadřazenou složku.",
   "newBookmarkDescription": "Vytvořte novou záložku zadáním názvu, URL a výběrem nadřazené složky.",
-  "editBookmarkDescription": "Upravte název záložky, URL a nadřazenou složku."
+  "editBookmarkDescription": "Upravte název záložky, URL a nadřazenou složku.",
+  "previewLoading": "Načítání náhledu...",
+  "previewUnavailable": "Náhled není k dispozici"
 }

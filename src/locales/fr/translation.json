@@ -33,5 +33,7 @@
   "newFolderDescription": "Créez un nouveau dossier en entrant un titre et en sélectionnant un dossier parent.",
   "editFolderDescription": "Modifiez le titre et le dossier parent du dossier.",
   "newBookmarkDescription": "Créez un nouveau signet en entrant un titre, une URL et en sélectionnant un dossier parent.",
-  "editBookmarkDescription": "Modifiez le titre, l'URL et le dossier parent du signet."
+  "editBookmarkDescription": "Modifiez le titre, l'URL et le dossier parent du signet.",
+  "previewLoading": "Chargement de l'aperçu...",
+  "previewUnavailable": "Aperçu indisponible"
 }

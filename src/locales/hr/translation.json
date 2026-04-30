@@ -33,5 +33,7 @@
   "newFolderDescription": "Stvorite novu mapu unosom naslova i odabirom nadređene mape.",
   "editFolderDescription": "Uredite naslov mape i nadređenu mapu.",
   "newBookmarkDescription": "Stvorite novu oznaku unosom naslova, URL-a i odabirom nadređene mape.",
-  "editBookmarkDescription": "Uredite naslov oznake, URL i nadređenu mapu."
+  "editBookmarkDescription": "Uredite naslov oznake, URL i nadređenu mapu.",
+  "previewLoading": "Učitavanje pregleda...",
+  "previewUnavailable": "Pregled nije dostupan"
 }

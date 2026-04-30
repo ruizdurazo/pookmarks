@@ -1,4 +1,12 @@
 // Boobmarks search results flat list
+.bookmarkRow {
+  width: 100%;
+
+  > button {
+    width: 100%;
+  }
+}
+
 .list {
   display: flex;
   flex-direction: column;

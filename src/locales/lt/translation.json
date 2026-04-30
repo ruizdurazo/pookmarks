@@ -33,5 +33,7 @@
   "newFolderDescription": "Sukurkite naują aplanką įvesdami pavadinimą ir pasirinkdami pagrindinį aplanką.",
   "editFolderDescription": "Redaguoti aplanko pavadinimą ir pagrindinį aplanką.",
   "newBookmarkDescription": "Sukurkite naują žymę įvesdami pavadinimą, URL ir pasirinkdami pagrindinį aplanką.",
-  "editBookmarkDescription": "Redaguoti žymės pavadinimą, URL ir pagrindinį aplanką."
+  "editBookmarkDescription": "Redaguoti žymės pavadinimą, URL ir pagrindinį aplanką.",
+  "previewLoading": "Įkeliama peržiūra...",
+  "previewUnavailable": "Peržiūra nepasiekiama"
 }

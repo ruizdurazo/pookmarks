@@ -33,5 +33,7 @@
   "newFolderDescription": "Crie uma nova pasta inserindo um título e selecionando uma pasta pai.",
   "editFolderDescription": "Edite o título e a pasta pai da pasta.",
   "newBookmarkDescription": "Crie um novo marcador inserindo um título, URL e selecionando uma pasta pai.",
-  "editBookmarkDescription": "Edite o título, URL e pasta pai do marcador."
+  "editBookmarkDescription": "Edite o título, URL e pasta pai do marcador.",
+  "previewLoading": "Carregando pré-visualização...",
+  "previewUnavailable": "Pré-visualização indisponível"
 }

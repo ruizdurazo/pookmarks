@@ -33,5 +33,7 @@
   "newFolderDescription": "Opret en ny mappe ved at indtaste en titel og vælge en overordnet mappe.",
   "editFolderDescription": "Rediger mappens titel og overordnede mappe.",
   "newBookmarkDescription": "Opret et nyt bogmærke ved at indtaste en titel, URL og vælge en overordnet mappe.",
-  "editBookmarkDescription": "Rediger bogmærkets titel, URL og overordnede mappe."
+  "editBookmarkDescription": "Rediger bogmærkets titel, URL og overordnede mappe.",
+  "previewLoading": "Indlæser forhåndsvisning...",
+  "previewUnavailable": "Forhåndsvisning ikke tilgængelig"
 }

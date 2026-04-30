@@ -59,6 +59,7 @@ The result is that the extension is private and runs entirely locally on your ma
 - [x] Optional: Add even even more languages (Chinese, Japanese, Korean, Russian, Turkish)
 - [x] Optional: Fix bug where tab focused action buttons can't be triggered by using enter key because the selected item on the tree or flat list will be triggered instead.
 - [x] Optional: Fix bug where the context menu is partially hidden or cut off because of its placement. Make sure it's always visible and doesn't get cut off.
+- [x] Optional: Add a preview card for the bookmark when hovering over a bookmark in the tree or flat list.
 
 ## Installing locally
 

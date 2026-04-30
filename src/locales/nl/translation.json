@@ -33,5 +33,7 @@
   "newFolderDescription": "Maak een nieuwe map door een titel in te voeren en een bovenliggende map te selecteren.",
   "editFolderDescription": "Bewerk de titel en bovenliggende map van de map.",
   "newBookmarkDescription": "Maak een nieuwe bladwijzer door een titel en URL in te voeren en een bovenliggende map te selecteren.",
-  "editBookmarkDescription": "Bewerk de titel, URL en bovenliggende map van de bladwijzer."
+  "editBookmarkDescription": "Bewerk de titel, URL en bovenliggende map van de bladwijzer.",
+  "previewLoading": "Voorbeeld laden...",
+  "previewUnavailable": "Voorbeeld niet beschikbaar"
 }

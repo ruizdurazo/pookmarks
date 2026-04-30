@@ -33,5 +33,7 @@
   "newFolderDescription": "Loo uus kaust, sisestades pealkirja ja valides ülemkausta.",
   "editFolderDescription": "Muuda kausta pealkirja ja ülemkausta.",
   "newBookmarkDescription": "Loo uus järjehoidja, sisestades pealkirja, URL-i ja valides ülemkausta.",
-  "editBookmarkDescription": "Muuda järjehoidja pealkirja, URL-i ja ülemkausta."
+  "editBookmarkDescription": "Muuda järjehoidja pealkirja, URL-i ja ülemkausta.",
+  "previewLoading": "Eelvaate laadimine...",
+  "previewUnavailable": "Eelvaade pole saadaval"
 }
