@@ -1,6 +1,6 @@
 # Technical overview
 
-This document describes how the repository is wired for a Chrome MV3 side-panel extension, how bookmark data flows through the UI, and how **search** and **drag-and-drop** are implemented.
+This document describes how the repository is wired for a Chrome MV3 side-panel extension, how bookmark data flows through the UI, and how **search**, **drag-and-drop**, and **bookmark URL preview** (hover card) are implemented.
 
 ## Project setup
 
@@ -160,6 +160,60 @@ Every successful `chrome.bookmarks.move` callback invokes `**onRefresh()`** (fro
 
 ---
 
+## Bookmark URL preview (hover card)
+
+Hovering a **bookmark** (not a folder) for about **two seconds** opens a floating card near the cursor with optional title, description, Open Graph image, site name, and URL. Previews apply to bookmarks in both the **tree** and **search results**.
+
+### Why the background service worker fetches the page
+
+The UI (`BookmarkFlatList`, `BookmarkTree`) calls `**requestBookmarkPreview(url)**` in `src/utils/bookmarkPreview.ts`, which sends a **`chrome.runtime.sendMessage`** with type **`bookmark-preview:get`** and the bookmark URL.
+
+The **service worker** (`src/background.ts`) handles that message, performs **`fetch(url)`**, parses HTML, and returns **`BookmarkPreviewMetadata`** (`url`, `finalUrl`, optional `title`, `description`, `image`, `siteName`). Fetching from the background avoids doing cross-origin document requests from the side-panel page itself and relies on **`host_permissions`** for `http://*/*` and `https://*/*`.
+
+### Background fetch behavior
+
+- **Protocols** — Only **`http:`** and **`https:`** URLs are accepted (`normalizePreviewUrl` throws otherwise).
+- **Timeout** — **`AbortController`** aborts after **8 seconds** (`PREVIEW_FETCH_TIMEOUT_MS`).
+- **Request** — `fetch` uses `accept: text/html,application/xhtml+xml`, **`redirect: "follow"`**, and reads **`response.text()`** capped at the first **500,000** characters (`MAX_HTML_CHARS`).
+- **Non-HTML** — If `Content-Type` is not treated as HTML (see `isHtmlContent`), the worker returns minimal metadata (`url`, **`finalUrl`** after redirects) with no parsed fields.
+- **Cache** — Successful lookups are stored in an in-memory **`Map`** keyed by normalized URL string, with **24-hour** TTL (`PREVIEW_CACHE_TTL_MS`).
+
+### Metadata extraction (`extractPreviewMetadata`)
+
+HTML is parsed with **regex-based** helpers (not a full DOM parser):
+
+- **`<meta>` tags** — Scanned for `property`, `name`, or `itemprop` plus `content`; keys are lowercased for lookup.
+- **Title** — Prefer **`og:title`** / **`twitter:title`**, else **`<title>...</title>`** with tags stripped and entities decoded.
+- **Description** — **`og:description`**, **`twitter:description`**, or **`description`**.
+- **Image** — **`og:image`**, **`twitter:image`**, or **`twitter:image:src`**, resolved with **`new URL(image, baseUrl)`** and restricted to **http/https**.
+- **Site name** — **`og:site_name`** or **`application-name`**.
+
+Responses use **`sendResponse`** from **`chrome.runtime.onMessage`**; the listener returns **`true`** so the async `getBookmarkPreview` chain can respond later.
+
+### Hook and UI (`useBookmarkPreview`, `BookmarkPreviewCard`)
+
+`src/hooks/useBookmarkPreview.ts` owns hover timing and positioning:
+
+- **Delay** — **`HOVER_DELAY_MS = 2000`**: the preview does not show until the pointer has rested on the bookmark row for two seconds (timer resets when re-entering or when URL/disabled changes).
+- **Touch** — **`pointerType === "touch"`** is ignored so previews stay pointer/desktop-oriented.
+- **Dismiss** — Leaving the row, **`pointercancel`**, or **`mousedown`/`pointerdown`** on the trigger hides the card (avoids fighting clicks and drag).
+- **Stale responses** — A monotonic **`requestId`** ignores async results if the user moved away before the fetch completed.
+- **Portal** — When visible, **`BookmarkPreviewCard`** is rendered with **`createPortal(..., document.body)`** so it stacks above the side panel.
+- **Position** — **`getPreviewPositionFromPointer`** clamps horizontal center near the cursor (**300 px** card width, margins), chooses **`placement`** `"above"` vs `"below"` from viewport space vs **`ESTIMATED_CARD_HEIGHT`**, and stores **`left`/`top`** for absolute positioning.
+
+`BookmarkPreviewCard` (`src/components/BookmarkPreview.tsx`) roles:
+
+- **`loading`** — Shows **`fallbackTitle`** (bookmark title from the tree/list) and translated **`previewLoading`**.
+- **`error`** — **`previewUnavailable`** plus **`finalUrl`** / URL display.
+- **`ready`** — Optional og image (**`referrerPolicy="no-referrer"`**), site name, title, description, display URL.
+
+### Where triggers are attached
+
+- **`BookmarkTree`** — Only **bookmark** rows spread **`previewTriggerProps`** on the inner bookmark row (`disabled` when **`isOverlay`**, **`isDraggingActive`**, or **`isDragging`** so previews do not fight drag-and-drop).
+- **`BookmarkFlatList`** — **`BookmarkFlatListBookmarkButton`** wraps bookmark-only buttons with **`previewTriggerProps`** on an outer **`div`**; folders only navigate into the tree and have no preview hook.
+
+---
+
 ## Related files (quick map)
 
 
@@ -171,6 +225,7 @@ Every successful `chrome.bookmarks.move` callback invokes `**onRefresh()`** (fro
 | Flatten / projection / reorder helpers     | `src/utils/treeUtils.ts`                                               |
 | Bookmark open / tab behavior               | `src/utils/bookmarkNavigation.ts`                                      |
 | Folder “open all” helpers                  | `src/utils/bookmarkUtils.ts`                                           |
+| Hover URL preview                          | `src/hooks/useBookmarkPreview.ts`, `src/components/BookmarkPreview.tsx`, `src/utils/bookmarkPreview.ts`, `src/background.ts` (message handler + fetch) |
 | Extension bootstrap                        | `manifest.json`, `src/background.ts`, `sidepanel.html`, `src/main.tsx` |
 | Build                                      | `vite.config.ts`, `package.json`                                       |
 

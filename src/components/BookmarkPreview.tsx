@@ -1,4 +1,5 @@
-import type { CSSProperties } from "react"
+import { clsx } from "clsx"
+import { useLayoutEffect, useState, type CSSProperties } from "react"
 import type { BookmarkPreviewMetadata } from "../utils/bookmarkPreview"
 import styles from "./BookmarkPreview.module.scss"
 
@@ -14,6 +15,7 @@ export interface PreviewPosition {
 
 interface BookmarkPreviewCardProps {
   fallbackTitle: string
+  instant?: boolean
   loadingLabel: string
   position: PreviewPosition
   preview: BookmarkPreviewMetadata | null
@@ -24,6 +26,7 @@ interface BookmarkPreviewCardProps {
 
 export function BookmarkPreviewCard({
   fallbackTitle,
+  instant = false,
   loadingLabel,
   position,
   preview,
@@ -33,6 +36,30 @@ export function BookmarkPreviewCard({
 }: BookmarkPreviewCardProps) {
   const title = preview?.title || fallbackTitle
   const displayUrl = getDisplayUrl(preview?.finalUrl ?? url)
+  const [entered, setEntered] = useState(instant)
+
+  useLayoutEffect(() => {
+    if (instant) {
+      setEntered(true)
+      return
+    }
+    let cancelled = false
+    let innerId = 0
+    const outerId = requestAnimationFrame(() => {
+      if (cancelled) return
+      innerId = requestAnimationFrame(() => {
+        if (!cancelled) setEntered(true)
+      })
+    })
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(outerId)
+      cancelAnimationFrame(innerId)
+    }
+  }, [instant])
+
+  const showFinal = instant || entered
+
   const style: CSSProperties = {
     left: position.left,
     top: position.top,
@@ -40,7 +67,14 @@ export function BookmarkPreviewCard({
 
   return (
     <aside
-      className={`${styles.card} ${position.placement === "above" ? styles.placementAbove : styles.placementBelow}`}
+      className={clsx(
+        styles.card,
+        position.placement === "above"
+          ? styles.placementAbove
+          : styles.placementBelow,
+        showFinal && styles.visible,
+      )}
+      data-instant={instant ? "" : undefined}
       style={style}
       role="tooltip"
     >

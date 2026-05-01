@@ -12,15 +12,35 @@
   color: var(--bookmark-color);
   pointer-events: none;
   /* Anchor point (left, top) = pointer; shift card above/below like a speech bubble */
-  will-change: transform;
+  will-change: transform, opacity;
+  opacity: 0;
+  transition:
+    transform 0.125s ease-out,
+    opacity 0.125s ease-out;
 }
 
 .placementAbove {
-  transform: translate(-50%, calc(-100% - 12px));
+  transform: translate(-50%, calc(-100% - 12px)) scale(0.97);
+  transform-origin: center bottom;
 }
 
 .placementBelow {
-  transform: translate(-50%, 12px);
+  transform: translate(-50%, 12px) scale(0.97);
+  transform-origin: center top;
+}
+
+.visible.placementAbove {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 12px)) scale(1);
+}
+
+.visible.placementBelow {
+  opacity: 1;
+  transform: translate(-50%, 12px) scale(1);
+}
+
+.card[data-instant] {
+  transition-duration: 0ms;
 }
 
 .image {

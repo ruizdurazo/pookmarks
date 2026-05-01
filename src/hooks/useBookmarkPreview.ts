@@ -13,6 +13,31 @@ import {
 } from "../utils/bookmarkPreview"
 
 const HOVER_DELAY_MS = 2000
+/** After a preview closes, keep the chain "warm" this long so the next bookmark skips hover delay. */
+const PREVIEW_CHAIN_COOLDOWN_MS = 450
+
+let previewChainWarm = false
+let chainCoolDownTimer: number | null = null
+
+function cancelPreviewChainCoolDown() {
+  if (chainCoolDownTimer !== null) {
+    window.clearTimeout(chainCoolDownTimer)
+    chainCoolDownTimer = null
+  }
+}
+
+function markPreviewChainWarm() {
+  cancelPreviewChainCoolDown()
+  previewChainWarm = true
+}
+
+function schedulePreviewChainCoolDown() {
+  cancelPreviewChainCoolDown()
+  chainCoolDownTimer = window.setTimeout(() => {
+    chainCoolDownTimer = null
+    previewChainWarm = false
+  }, PREVIEW_CHAIN_COOLDOWN_MS)
+}
 const CARD_WIDTH = 300
 const CARD_MARGIN = 12
 const ESTIMATED_CARD_HEIGHT = 220
@@ -33,6 +58,7 @@ export function useBookmarkPreview({
   const [position, setPosition] = useState<PreviewPosition | null>(null)
   const [preview, setPreview] = useState<BookmarkPreviewMetadata | null>(null)
   const [status, setStatus] = useState<PreviewStatus>("idle")
+  const [openInstant, setOpenInstant] = useState(false)
   const timerRef = useRef<number | null>(null)
   const requestIdRef = useRef(0)
   const pointerRef = useRef({ x: 0, y: 0 })
@@ -56,6 +82,8 @@ export function useBookmarkPreview({
     setPosition(null)
     setStatus("idle")
     setPreview(null)
+    setOpenInstant(false)
+    schedulePreviewChainCoolDown()
   }
 
   useEffect(() => {
@@ -80,13 +108,18 @@ export function useBookmarkPreview({
       y: clientY,
     }
 
+    const skipHoverDelay = previewChainWarm
+    const delayMs = skipHoverDelay ? 0 : HOVER_DELAY_MS
+
     timerRef.current = window.setTimeout(() => {
       timerRef.current = null
       const { x, y } = pointerRef.current
+      setOpenInstant(skipHoverDelay)
       setPosition(getPreviewPositionFromPointer(x, y))
       setIsVisible(true)
       setStatus("loading")
       setPreview(null)
+      markPreviewChainWarm()
 
       requestBookmarkPreview(url)
         .then((nextPreview) => {
@@ -104,7 +137,7 @@ export function useBookmarkPreview({
 
           setStatus("error")
         })
-    }, HOVER_DELAY_MS)
+    }, delayMs)
   }
 
   const handlePointerEnter = (event: PointerEvent<HTMLElement>) => {
@@ -151,6 +184,7 @@ export function useBookmarkPreview({
       ? createPortal(
           createElement(BookmarkPreviewCard, {
             fallbackTitle,
+            instant: openInstant,
             loadingLabel: t("previewLoading", {
               defaultValue: "Loading preview...",
             }),
