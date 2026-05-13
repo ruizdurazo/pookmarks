@@ -10,6 +10,7 @@ import SortIcon from "./assets/icons/sort.svg?react"
 import SearchIcon from "./assets/icons/search.svg?react"
 import CheckmarkIcon from "./assets/icons/checkmark.svg?react"
 import { useTranslation } from "react-i18next"
+import { matchesBookmarkSearch } from "./utils/searchNormalize.ts"
 
 function App() {
   const { t } = useTranslation()
@@ -217,9 +218,11 @@ function App() {
       return nodes
         .map((node) => ({ ...node }))
         .filter((node) => {
-          const matches =
-            node.title.toLowerCase().includes(query.toLowerCase()) ||
-            (node.url && node.url.toLowerCase().includes(query.toLowerCase()))
+          const matches = matchesBookmarkSearch(
+            node.title,
+            node.url,
+            query,
+          )
           if (node.children) {
             node.children = filterBookmarks(node.children, query)
             return matches || node.children.length > 0
@@ -251,11 +254,8 @@ function App() {
     }
 
     const handler = setTimeout(() => {
-      const lowerQuery = searchQuery.toLowerCase()
-      const nodes = allFlatNodes.filter(
-        (node) =>
-          node.title.toLowerCase().includes(lowerQuery) ||
-          (node.url && node.url.toLowerCase().includes(lowerQuery)),
+      const nodes = allFlatNodes.filter((node) =>
+        matchesBookmarkSearch(node.title, node.url, searchQuery),
       )
 
       let sortedNodes = nodes

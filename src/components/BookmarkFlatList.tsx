@@ -20,6 +20,7 @@ import {
 import FolderIcon from "../assets/icons/folder.svg?react"
 import { getBookmarkIcon } from "../utils/iconUtils"
 import { useTranslation } from "react-i18next"
+import { findFoldedMatchRangesForQuery } from "../utils/searchNormalize.ts"
 
 interface BookmarkFlatListProps {
   nodes: chrome.bookmarks.BookmarkTreeNode[]
@@ -35,19 +36,29 @@ const BookmarkFlatList = ({
   onOpenFolderInTree,
 }: BookmarkFlatListProps) => {
   const { t } = useTranslation()
-  const highlightText = (text: string, query: string) => {
+  const highlightText = (text: string, query: string): ReactNode => {
     if (!query) return text
-    const regex = new RegExp(`(${query})`, "gi")
-    const parts = text.split(regex)
-    return parts.map((part, i) =>
-      regex.test(part) ? (
-        <span key={i} className={styles.highlight}>
-          {part}
-        </span>
-      ) : (
-        part
-      ),
-    )
+    const ranges = findFoldedMatchRangesForQuery(text, query)
+    if (ranges.length === 0) return text
+
+    const parts: ReactNode[] = []
+    let cursor = 0
+    for (let idx = 0; idx < ranges.length; idx++) {
+      const { start, end } = ranges[idx]!
+      if (start > cursor) {
+        parts.push(text.slice(cursor, start))
+      }
+      parts.push(
+        <span key={`h-${idx}`} className={styles.highlight}>
+          {text.slice(start, end)}
+        </span>,
+      )
+      cursor = end
+    }
+    if (cursor < text.length) {
+      parts.push(text.slice(cursor))
+    }
+    return parts
   }
 
   const [editingNode, setEditingNode] =
