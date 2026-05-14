@@ -168,6 +168,8 @@ function App() {
   const [currentId, setCurrentId] = useState<string | null>(null)
   const [shouldCenterFocus, setShouldCenterFocus] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  /** Pre-delete visible order; used to move focus to a neighbor after removal. */
+  const prevVisibleNodeIdsRef = useRef<string[]>([])
 
   useEffect(() => {
     const root = document.documentElement
@@ -449,17 +451,36 @@ function App() {
   }, [visibleNodes, nodeMap, openFolders, toggleFolder, currentId])
 
   useEffect(() => {
+    const ids = visibleNodes.map((v) => v.id)
+
     if (currentId && !visibleNodes.some((v) => v.id === currentId)) {
-      const findVisibleAncestor = (id: string): string | null => {
-        const node = nodeMap.get(id)
-        if (!node || !node.parentId) return null
-        if (visibleNodes.some((v) => v.id === node.parentId))
-          return node.parentId
-        return findVisibleAncestor(node.parentId)
+      if (!nodeMap.has(currentId)) {
+        const prev = prevVisibleNodeIdsRef.current
+        const prevIndex = prev.indexOf(currentId)
+        if (prevIndex !== -1) {
+          const nextId =
+            visibleNodes[prevIndex]?.id ??
+            visibleNodes[Math.max(0, prevIndex - 1)]?.id ??
+            visibleNodes[0]?.id ??
+            null
+          setCurrentId(nextId)
+        } else {
+          setCurrentId(visibleNodes[0]?.id ?? null)
+        }
+      } else {
+        const findVisibleAncestor = (id: string): string | null => {
+          const node = nodeMap.get(id)
+          if (!node || !node.parentId) return null
+          if (visibleNodes.some((v) => v.id === node.parentId))
+            return node.parentId
+          return findVisibleAncestor(node.parentId)
+        }
+        const ancestor = findVisibleAncestor(currentId)
+        setCurrentId(ancestor ?? visibleNodes[0]?.id ?? null)
       }
-      const ancestor = findVisibleAncestor(currentId)
-      setCurrentId(ancestor ?? visibleNodes[0]?.id ?? null)
     }
+
+    prevVisibleNodeIdsRef.current = ids
   }, [visibleNodes, currentId, nodeMap])
 
   // Sync focus to currentId
@@ -472,7 +493,8 @@ function App() {
           element.focus({ preventScroll: true })
           setShouldCenterFocus(false)
         } else if (document.activeElement !== element) {
-          element.focus()
+          element.focus({ preventScroll: true })
+          element.scrollIntoView({ block: "nearest", inline: "nearest" })
         }
       }
     }
